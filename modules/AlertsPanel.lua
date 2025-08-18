@@ -13,6 +13,8 @@ function AlertsPanel:GetPanel(parent)
     if not self.panel then
         self:CreatePanel(parent)
     end
+    -- Update whisper mode status when panel is accessed
+    self:UpdateWhisperModeStatus()
     return self.panel
 end
 
@@ -36,6 +38,14 @@ function AlertsPanel:CreatePanel(parent)
     title:SetText("Alert Settings")
     title:SetTextColor(1, 0.8, 0)
     yOffset = yOffset - 30
+    
+    -- Whisper mode status indicator
+    local whisperStatus = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    whisperStatus:SetPoint("TOPLEFT", 10, yOffset)
+    whisperStatus:SetWidth(380)
+    whisperStatus:SetJustifyH("LEFT")
+    self.whisperStatus = whisperStatus
+    yOffset = yOffset - 25
     
     -- Recipe alerts
     self:CreateCheckbox(content, "Recipe Alerts", 10, yOffset,
@@ -115,8 +125,26 @@ function AlertsPanel:CreatePanel(parent)
     )
     yOffset = yOffset - 35
     
+    -- Initial whisper mode status update
+    self:UpdateWhisperModeStatus()
+    
     panel:Hide()
     return panel
+end
+
+function AlertsPanel:UpdateWhisperModeStatus()
+    if not self.whisperStatus then return end
+    
+    if addon.GIS.IsAvailable() then
+        local whisperMode = addon.GIS.Get("whisperMode")
+        if whisperMode then
+            self.whisperStatus:SetText("|cff00ff00📨 Request Mode: WHISPER|r (Messages sent directly to player)")
+        else
+            self.whisperStatus:SetText("|cffffff00📢 Request Mode: GUILD|r (Messages sent to guild channel)")
+        end
+    else
+        self.whisperStatus:SetText("|cffff0000GuildItemScanner not available|r")
+    end
 end
 
 function AlertsPanel:CreateCheckbox(parent, text, x, y, getValue, setValue, tooltip)
