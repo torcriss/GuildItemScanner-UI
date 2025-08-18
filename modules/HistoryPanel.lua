@@ -100,6 +100,11 @@ function HistoryPanel:RefreshHistory()
         return
     end
     
+    -- Hide the message label when we have history to display
+    if self.messageLabel then
+        self.messageLabel:Hide()
+    end
+    
     -- Display history entries
     local yOffset = self.historyStartY
     for i, entry in ipairs(history) do
@@ -167,10 +172,13 @@ function HistoryPanel:ShowMessage(message)
     end
     self.historyFrames = {}
     
-    -- Show message
+    -- Show message near the top, after the buttons
     if not self.messageLabel then
         self.messageLabel = self.historyContainer:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-        self.messageLabel:SetPoint("CENTER", self.historyContainer, "CENTER", 0, -50)
+        -- Position it at the same Y as where history entries would start
+        self.messageLabel:SetPoint("TOPLEFT", 10, self.historyStartY)
+        self.messageLabel:SetWidth(350)
+        self.messageLabel:SetJustifyH("LEFT")
     end
     
     self.messageLabel:SetText(message)
