@@ -72,6 +72,14 @@ function HistoryPanel:CreatePanel(parent)
     
     yOffset = yOffset - 25
     
+    -- Add info label about display limit
+    local limitInfo = content:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    limitInfo:SetPoint("TOPLEFT", 10, yOffset)
+    limitInfo:SetText("|cff888888Showing latest 20 alerts|r")
+    self.limitInfo = limitInfo
+    
+    yOffset = yOffset - 20
+    
     -- History list container
     self.historyContainer = content
     self.historyStartY = yOffset
@@ -121,6 +129,11 @@ function HistoryPanel:RefreshHistory()
     -- Hide the message label when we have history to display
     if self.messageLabel then
         self.messageLabel:Hide()
+    end
+    
+    -- Show the limit info label when we have history
+    if self.limitInfo then
+        self.limitInfo:Show()
     end
     
     -- Display history entries with limit
@@ -271,6 +284,11 @@ function HistoryPanel:ShowMessage(message)
         end
     end
     self.historyFrames = {}
+    
+    -- Hide the limit info label when showing error messages
+    if self.limitInfo then
+        self.limitInfo:Hide()
+    end
     
     -- Show message near the top, after the buttons
     if not self.messageLabel then
