@@ -70,6 +70,52 @@ function SocialHistoryPanel:CreatePanel(parent)
     
     yOffset = yOffset - 40
     
+    -- Message mode selection
+    local modeLabel = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    modeLabel:SetPoint("TOPLEFT", 10, yOffset)
+    modeLabel:SetText("Click action:")
+    modeLabel:SetTextColor(0.9, 0.9, 0.9)
+    yOffset = yOffset - 25
+    
+    -- Guild radio button
+    local guildRadio = CreateFrame("CheckButton", nil, content, "UIRadioButtonTemplate")
+    guildRadio:SetPoint("TOPLEFT", 20, yOffset)
+    local guildLabel = guildRadio:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    guildLabel:SetPoint("LEFT", guildRadio, "RIGHT", 5, 0)
+    guildLabel:SetText("Send to Guild")
+    self.guildRadio = guildRadio
+    
+    -- Whisper radio button  
+    local whisperRadio = CreateFrame("CheckButton", nil, content, "UIRadioButtonTemplate")
+    whisperRadio:SetPoint("TOPLEFT", 170, yOffset)
+    local whisperLabel = whisperRadio:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    whisperLabel:SetPoint("LEFT", whisperRadio, "RIGHT", 5, 0)
+    whisperLabel:SetText("Whisper Player")
+    self.whisperRadio = whisperRadio
+    
+    -- Radio button logic (mutual exclusivity)
+    guildRadio:SetScript("OnClick", function()
+        guildRadio:SetChecked(true)
+        whisperRadio:SetChecked(false)
+        addon:SetSetting("socialHistory", "messageMode", "guild")
+    end)
+    
+    whisperRadio:SetScript("OnClick", function()
+        whisperRadio:SetChecked(true)
+        guildRadio:SetChecked(false)
+        addon:SetSetting("socialHistory", "messageMode", "whisper")
+    end)
+    
+    -- Set default/saved state
+    local mode = addon:GetSetting("socialHistory", "messageMode") or "guild"
+    if mode == "whisper" then
+        whisperRadio:SetChecked(true)
+    else
+        guildRadio:SetChecked(true)
+    end
+    
+    yOffset = yOffset - 35
+    
     -- Add info label about display limit
     local limitInfo = content:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     limitInfo:SetPoint("TOPLEFT", 10, yOffset)
@@ -229,9 +275,11 @@ function SocialHistoryPanel:CreateSocialHistoryEntry(entry, yOffset)
     -- Tooltip for click functionality
     frame:SetScript("OnEnter", function()
         GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
-        GameTooltip:SetText("Click to send guild message")
+        local isWhisper = self.whisperRadio and self.whisperRadio:GetChecked()
+        GameTooltip:SetText(isWhisper and "Click to whisper player" or "Click to send guild message")
         local messageText = eventType == "GZ" and ("GZ " .. playerName .. "!") or ("RIP " .. playerName)
-        GameTooltip:AddLine("Will send: " .. messageText, 1, 1, 1, true)
+        local prefix = isWhisper and "Will whisper: " or "Will send to guild: "
+        GameTooltip:AddLine(prefix .. messageText, 1, 1, 1, true)
         GameTooltip:Show()
     end)
     
@@ -255,7 +303,7 @@ function SocialHistoryPanel:SendSocialMessage(entry)
         return
     end
     
-    -- Create appropriate guild message based on event type
+    -- Create appropriate message based on event type
     local playerName = entry.player
     local eventType = entry.eventType
     local message
@@ -268,11 +316,23 @@ function SocialHistoryPanel:SendSocialMessage(entry)
         message = "Hey " .. playerName
     end
     
-    -- Send the message to guild
-    SendChatMessage(message, "GUILD")
+    -- Determine channel based on radio selection
+    local channel = "GUILD"
+    local target = nil
+    if self.whisperRadio and self.whisperRadio:GetChecked() then
+        channel = "WHISPER"
+        target = playerName
+    end
+    
+    -- Send the message
+    SendChatMessage(message, channel, nil, target)
     
     -- Provide feedback to user
-    print("|cff00ff00[GIS-UI]|r Sent to guild: " .. message)
+    if channel == "WHISPER" then
+        print("|cff00ff00[GIS-UI]|r Whispered " .. playerName .. ": " .. message)
+    else
+        print("|cff00ff00[GIS-UI]|r Sent to guild: " .. message)
+    end
 end
 
 function SocialHistoryPanel:ShowMessage(message)
