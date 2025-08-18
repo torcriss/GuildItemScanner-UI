@@ -100,12 +100,13 @@ end
 
 ## Current Interface Structure
 
-### 5 Core Panels
+### 6 Core Panels
 1. **General Settings** - Core GIS configuration, toggles, and timing
 2. **Alert Settings** - Recipe, material, bag, and potion alerts with filters  
 3. **Professions** - Add/remove professions for detection
 4. **Social Features** - Auto-GZ and Auto-RIP (requires Frontier)
 5. **Alert History** - View and manage alert history with timestamps and player info
+6. **Admin Tools** - Testing and debugging utilities for GIS
 
 ### Removed Features
 - **Profile Management** - Removed in v1.2.0 for streamlined experience
@@ -125,6 +126,7 @@ GuildItemScanner-UI/
 │   ├── ProfessionsPanel.lua        # Profession management
 │   ├── SocialPanel.lua             # Social features
 │   ├── HistoryPanel.lua            # Alert history viewer
+│   ├── AdminPanel.lua              # Admin tools and testing
 │   ├── MaterialsPanel.lua          # (Inactive)
 │   └── ProfilesPanel.lua           # (Inactive)
 ├── README.md                       # User documentation
@@ -139,7 +141,7 @@ GuildItemScanner-UI/
 ### Before Every Commit
 - [ ] Test with GIS enabled and working
 - [ ] Test with GIS disabled/not loaded
-- [ ] Test all 5 panel navigation
+- [ ] Test all 6 panel navigation
 - [ ] Test minimap button functionality
 - [ ] Test settings persistence
 - [ ] Verify no Lua errors in log
@@ -153,6 +155,7 @@ GuildItemScanner-UI/
 - [ ] Professions Panel: Add/remove functionality, dropdown works
 - [ ] Social Panel: Toggles work with Frontier, tooltips clear
 - [ ] History Panel: Display history, refresh works, clear history with confirmation
+- [ ] Admin Panel: Smoke test button works, status display updates
 
 ## API Reference
 

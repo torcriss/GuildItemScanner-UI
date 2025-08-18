@@ -4,7 +4,7 @@ A streamlined graphical user interface addon for configuring [GuildItemScanner](
 
 ## 🎯 Features
 
-- 🎨 **Clean, Focused Interface** - Streamlined 5-tab design with scrollable panels
+- 🎨 **Clean, Focused Interface** - Streamlined 6-tab design with scrollable panels
 - 🗺️ **Minimap Integration** - Quick access via minimap button, drag to reposition
 - ⚡ **Lightweight & Fast** - Optimized codebase for excellent performance
 - 🔄 **Live Configuration** - Changes apply immediately to GuildItemScanner
@@ -40,6 +40,11 @@ A streamlined graphical user interface addon for configuring [GuildItemScanner](
 - **Player Information**: See which players linked items
 - **Alert Types**: Identify what type of alert was triggered
 - **Clear History**: Remove all history entries with confirmation
+
+### 🔧 Admin Tools
+- **Smoke Test**: Run GuildItemScanner diagnostic tests
+- **Status Display**: Shows test results and system status
+- **Debug Tools**: Testing and troubleshooting utilities
 
 ## 🔧 Requirements
 

@@ -11,7 +11,8 @@ local PANELS = {
     {name = "Alerts", title = "Alert Settings", module = "AlertsPanel"},
     {name = "Professions", title = "Professions", module = "ProfessionsPanel"},
     {name = "Social", title = "Social Features", module = "SocialPanel"},
-    {name = "History", title = "Alert History", module = "HistoryPanel"}
+    {name = "History", title = "Alert History", module = "HistoryPanel"},
+    {name = "Admin", title = "Admin Tools", module = "AdminPanel"}
 }
 
 function MainFrame:Initialize()
