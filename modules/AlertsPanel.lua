@@ -18,7 +18,8 @@ end
 
 function AlertsPanel:CreatePanel(parent)
     local panel = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
-    panel:SetAllPoints()
+    panel:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, 0)
+    panel:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -25, 0)
     
     local content = CreateFrame("Frame", nil, panel)
     content:SetSize(400, 500)
@@ -34,7 +35,7 @@ function AlertsPanel:CreatePanel(parent)
     title:SetPoint("TOPLEFT", 10, yOffset)
     title:SetText("Alert Settings")
     title:SetTextColor(1, 0.8, 0)
-    yOffset = yOffset - 40
+    yOffset = yOffset - 30
     
     -- Recipe alerts
     self:CreateCheckbox(content, "Recipe Alerts", 10, yOffset,
@@ -42,7 +43,7 @@ function AlertsPanel:CreatePanel(parent)
         function(checked) addon.GIS.Set("recipeAlert", checked) end,
         "Show alerts for recipes matching your professions"
     )
-    yOffset = yOffset - 40
+    yOffset = yOffset - 35
     
     -- Material alerts section
     local matTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -56,7 +57,7 @@ function AlertsPanel:CreatePanel(parent)
         function(checked) addon.GIS.Set("materialAlert", checked) end,
         "Show alerts for crafting materials"
     )
-    yOffset = yOffset - 30
+    yOffset = yOffset - 35
     
     -- Material rarity filter
     local rarityDropdown = self:CreateDropdown(content, "Rarity Filter", 30, yOffset,
@@ -66,7 +67,7 @@ function AlertsPanel:CreatePanel(parent)
         function(value) addon.GIS.Set("materialRarityFilter", value) end,
         "Minimum rarity for material alerts"
     )
-    yOffset = yOffset - 60
+    yOffset = yOffset - 50
     
     -- Material quantity threshold
     self:CreateSlider(content, "Quantity Threshold", 30, yOffset, 1, 20,
@@ -75,7 +76,7 @@ function AlertsPanel:CreatePanel(parent)
         "Minimum stack size for material alerts",
         " items"
     )
-    yOffset = yOffset - 80
+    yOffset = yOffset - 60
     
     -- Bag alerts section
     local bagTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -89,7 +90,7 @@ function AlertsPanel:CreatePanel(parent)
         function(checked) addon.GIS.Set("bagAlert", checked) end,
         "Show alerts for storage bags"
     )
-    yOffset = yOffset - 30
+    yOffset = yOffset - 35
     
     -- Bag size filter
     self:CreateSlider(content, "Minimum Bag Size", 30, yOffset, 6, 18,
@@ -98,7 +99,7 @@ function AlertsPanel:CreatePanel(parent)
         "Minimum number of slots for bag alerts",
         " slots"
     )
-    yOffset = yOffset - 80
+    yOffset = yOffset - 60
     
     -- Potion alerts section
     local potionTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -112,7 +113,7 @@ function AlertsPanel:CreatePanel(parent)
         function(checked) addon.GIS.Set("potionAlert", checked) end,
         "Show alerts for potions and consumables"
     )
-    yOffset = yOffset - 30
+    yOffset = yOffset - 35
     
     panel:Hide()
     return panel

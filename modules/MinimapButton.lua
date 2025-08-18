@@ -19,7 +19,7 @@ function MinimapButton:CreateButton()
     self.button:SetFrameLevel(8)
     
     -- Button icon
-    local icon = self.button:CreateTexture(nil, "BACKGROUND")
+    local icon = self.button:CreateTexture(nil, "ARTWORK")
     icon:SetSize(20, 20)
     icon:SetPoint("CENTER", 0, 1)
     icon:SetTexture("Interface\\Icons\\INV_Misc_Gear_01")  -- Gear icon
@@ -36,6 +36,7 @@ function MinimapButton:CreateButton()
     highlight:SetSize(31, 31)
     highlight:SetPoint("CENTER")
     highlight:SetTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
+    highlight:SetBlendMode("ADD")
     
     -- Make it draggable
     self.button:SetMovable(true)
@@ -77,9 +78,6 @@ function MinimapButton:OnClick(mouseButton)
         if addon.modules.MainFrame then
             addon.modules.MainFrame:Toggle()
         end
-    elseif mouseButton == "RightButton" then
-        -- Show quick menu
-        self:ShowQuickMenu()
     end
 end
 
@@ -155,114 +153,11 @@ function MinimapButton:OnEnter()
     
     GameTooltip:AddLine(" ")
     GameTooltip:AddLine("|cffffff00Left-click:|r Open configuration")
-    GameTooltip:AddLine("|cffffff00Right-click:|r Quick menu")
     GameTooltip:AddLine("|cffffff00Drag:|r Reposition button")
     
     GameTooltip:Show()
 end
 
-function MinimapButton:ShowQuickMenu()
-    if not self.quickMenu then
-        self:CreateQuickMenu()
-    end
-    
-    if self.quickMenu:IsShown() then
-        self.quickMenu:Hide()
-    else
-        self:UpdateQuickMenu()
-        self.quickMenu:Show()
-    end
-end
-
-function MinimapButton:CreateQuickMenu()
-    local menu = CreateFrame("Frame", "GISUIQuickMenu", UIParent, "UIDropDownMenuTemplate")
-    self.quickMenu = menu
-    
-    -- Position near minimap button
-    menu:SetPoint("TOPLEFT", self.button, "TOPRIGHT", 10, 0)
-    
-    local function AddMenuItem(text, func, checked)
-        local item = {
-            text = text,
-            func = func,
-            checked = checked,
-            keepShownOnClick = false
-        }
-        UIDropDownMenu_AddButton(item)
-    end
-    
-    -- Initialize menu items
-    UIDropDownMenu_Initialize(menu, function()
-        if not addon.GIS.IsAvailable() then
-            AddMenuItem("|cffff0000GuildItemScanner not found|r", function() end, false)
-            return
-        end
-        
-        -- Toggle main addon
-        local enabled = addon.GIS.Get("enabled")
-        AddMenuItem(
-            (enabled and "Disable" or "Enable") .. " GuildItemScanner",
-            function() addon.GIS.Toggle("enabled") end,
-            false
-        )
-        
-        -- Toggle debug mode
-        local debug = addon.GIS.Get("debugMode")
-        AddMenuItem(
-            "Debug Mode",
-            function() addon.GIS.Toggle("debugMode") end,
-            debug
-        )
-        
-        -- Toggle WTB filtering
-        local ignoreWTB = addon.GIS.Get("ignoreWTB")
-        AddMenuItem(
-            "WTB Filtering",
-            function() addon.GIS.Toggle("ignoreWTB") end,
-            ignoreWTB
-        )
-        
-        -- Separator
-        AddMenuItem("", function() end, false)
-        
-        -- Open specific panels
-        AddMenuItem("Open General Settings", function()
-            if addon.modules.MainFrame then
-                addon.modules.MainFrame:Show("General")
-            end
-        end, false)
-        
-        AddMenuItem("Open Professions", function()
-            if addon.modules.MainFrame then
-                addon.modules.MainFrame:Show("Professions")
-            end
-        end, false)
-        
-        AddMenuItem("Open Social Settings", function()
-            if addon.modules.MainFrame then
-                addon.modules.MainFrame:Show("Social")
-            end
-        end, false)
-        
-        -- Separator
-        AddMenuItem("", function() end, false)
-        
-        -- Hide button
-        AddMenuItem("Hide Minimap Button", function()
-            self:Hide()
-            print("|cff00ff00[GIS-UI]|r Minimap button hidden. Use |cffffff00/gisui|r to open settings.")
-        end, false)
-    end)
-end
-
-function MinimapButton:UpdateQuickMenu()
-    if self.quickMenu then
-        UIDropDownMenu_Initialize(self.quickMenu, function()
-            -- Re-initialize with current values
-            self:CreateQuickMenu()
-        end)
-    end
-end
 
 function MinimapButton:Show()
     if self.button then

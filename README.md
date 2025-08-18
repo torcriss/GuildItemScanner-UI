@@ -21,9 +21,10 @@ A graphical user interface addon for configuring [GuildItemScanner](https://gith
 - WTB filtering controls
 
 ### Alert Settings
-- Recipe, Material, Bag, and Potion alert toggles
+- Recipe, Material, Bag, Potion, and Equipment alert toggles
 - Material rarity and quantity filters
 - Bag size filtering
+- Equipment upgrade detection
 - Alert customization
 
 ### Professions
@@ -110,7 +111,7 @@ A graphical user interface addon for configuring [GuildItemScanner](https://gith
 
 ## 🤝 Support
 
-- **Issues**: Report bugs at [GitHub Issues](https://github.com/yourusername/GuildItemScanner-UI/issues)
+- **Issues**: Report bugs at [GitHub Issues](https://github.com/torcriss/GuildItemScanner-UI/issues)
 - **Main Addon**: [GuildItemScanner Repository](https://github.com/torcriss/GuildItemScanner)
 - **Discord**: Join the community for help and updates
 

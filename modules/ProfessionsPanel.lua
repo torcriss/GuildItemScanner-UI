@@ -16,40 +16,47 @@ function ProfessionsPanel:GetPanel(parent)
 end
 
 function ProfessionsPanel:CreatePanel(parent)
-    local panel = CreateFrame("Frame", nil, parent)
-    panel:SetAllPoints()
+    local panel = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
+    panel:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, 0)
+    panel:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -25, 0)
+    
+    local content = CreateFrame("Frame", nil, panel)
+    content:SetSize(400, 500)
+    panel:SetScrollChild(content)
+    
     self.panel = panel
+    self.content = content
     
     local yOffset = -20
     
     -- Title
-    local title = panel:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", 10, yOffset)
     title:SetText("Profession Management")
     title:SetTextColor(1, 0.8, 0)
-    yOffset = yOffset - 40
+    yOffset = yOffset - 30
     
     -- Current professions list
-    local currentLabel = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    local currentLabel = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     currentLabel:SetPoint("TOPLEFT", 10, yOffset)
     currentLabel:SetText("Current Professions:")
     yOffset = yOffset - 25
     
-    local professionsList = panel:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    local professionsList = content:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     professionsList:SetPoint("TOPLEFT", 20, yOffset)
     professionsList:SetWidth(350)
     professionsList:SetJustifyH("LEFT")
     self.professionsList = professionsList
-    yOffset = yOffset - 60
+    yOffset = yOffset - 50
     
     -- Add profession section
-    local addLabel = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    local addLabel = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     addLabel:SetPoint("TOPLEFT", 10, yOffset)
     addLabel:SetText("Add Profession:")
     yOffset = yOffset - 25
     
     -- Dropdown for available professions
-    local dropdown = CreateFrame("Frame", nil, panel, "UIDropDownMenuTemplate")
+    local dropdown = CreateFrame("Frame", nil, content, "UIDropDownMenuTemplate")
     dropdown:SetPoint("TOPLEFT", 10, yOffset)
     UIDropDownMenu_SetWidth(dropdown, 150)
     
@@ -70,7 +77,7 @@ function ProfessionsPanel:CreatePanel(parent)
     UIDropDownMenu_SetText(dropdown, "Select Profession")
     
     -- Add button
-    local addButton = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    local addButton = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
     addButton:SetSize(80, 25)
     addButton:SetPoint("LEFT", dropdown, "RIGHT", 0, 0)
     addButton:SetText("Add")
@@ -87,10 +94,10 @@ function ProfessionsPanel:CreatePanel(parent)
         end
     end)
     
-    yOffset = yOffset - 60
+    yOffset = yOffset - 50
     
     -- Clear all button
-    local clearButton = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    local clearButton = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
     clearButton:SetSize(120, 25)
     clearButton:SetPoint("TOPLEFT", 10, yOffset)
     clearButton:SetText("Clear All")

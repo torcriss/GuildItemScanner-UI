@@ -18,11 +18,12 @@ end
 
 function GeneralPanel:CreatePanel(parent)
     local panel = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
-    panel:SetAllPoints()
+    panel:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, 0)
+    panel:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -25, 0)
     
     -- Scroll content
     local content = CreateFrame("Frame", nil, panel)
-    content:SetSize(400, 600)
+    content:SetSize(400, 750)
     panel:SetScrollChild(content)
     
     self.panel = panel
@@ -83,14 +84,14 @@ function GeneralPanel:CreatePanel(parent)
         function(checked) addon.GIS.Set("ignoreWTB", checked) end,
         "Automatically filter out WTB (Want To Buy) messages"
     )
-    yOffset = yOffset - 50
+    yOffset = yOffset - 40
     
-    -- Sliders section
+    -- Alert settings section
     local slidersTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     slidersTitle:SetPoint("TOPLEFT", 10, yOffset)
-    slidersTitle:SetText("Timing & Duration")
+    slidersTitle:SetText("Alert Settings")
     slidersTitle:SetTextColor(0.9, 0.9, 0.9)
-    yOffset = yOffset - 25
+    yOffset = yOffset - 30
     
     -- Alert duration slider
     local alertSlider = self:CreateSlider(content, "Alert Duration", 10, yOffset, 1, 60, 
@@ -99,16 +100,7 @@ function GeneralPanel:CreatePanel(parent)
         "Duration in seconds that alerts remain visible",
         " seconds"
     )
-    yOffset = yOffset - 60
-    
-    -- Sound duration slider  
-    local soundSlider = self:CreateSlider(content, "Sound Duration", 10, yOffset, 1, 10,
-        function() return addon.GIS.Get("soundDuration") or 2 end,
-        function(value) addon.GIS.Set("soundDuration", value) end,
-        "Duration in seconds for sound alerts",
-        " seconds"
-    )
-    yOffset = yOffset - 80
+    yOffset = yOffset - 50
     
     -- Equipment comparison section
     local equipTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -125,39 +117,12 @@ function GeneralPanel:CreatePanel(parent)
         function(value) addon.GIS.Set("statComparisonMode", value) end,
         "How to compare equipment for upgrades"
     )
-    yOffset = yOffset - 80
-    
-    -- Reset button
-    local resetButton = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
-    resetButton:SetSize(150, 25)
-    resetButton:SetPoint("TOPLEFT", 10, yOffset)
-    resetButton:SetText("Reset to Defaults")
-    resetButton:SetScript("OnClick", function()
-        StaticPopup_Show("GISUI_CONFIRM_RESET")
-    end)
-    
-    -- Reset confirmation dialog
-    StaticPopupDialogs["GISUI_CONFIRM_RESET"] = {
-        text = "Reset all GuildItemScanner settings to defaults?",
-        button1 = "Reset",
-        button2 = "Cancel",
-        OnAccept = function()
-            if addon.GIS.IsAvailable() and _G.GuildItemScanner.Config.Reset then
-                addon.GIS.SafeCall(_G.GuildItemScanner.Config.Reset)
-                print("|cff00ff00[GIS-UI]|r Settings reset to defaults.")
-                GeneralPanel:RefreshValues()
-            end
-        end,
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = true,
-        preferredIndex = 3,
-    }
+    yOffset = yOffset - 50
     
     -- Store controls for refresh
     self.controls = {
         enableCheck, debugCheck, soundCheck, whisperCheck, greedCheck, wtbCheck,
-        alertSlider, soundSlider, comparisonDropdown
+        alertSlider, comparisonDropdown
     }
     
     panel:Hide()
@@ -210,18 +175,18 @@ end
 function GeneralPanel:CreateSlider(parent, text, x, y, minVal, maxVal, getValue, setValue, tooltip, suffix)
     local slider = CreateFrame("Slider", nil, parent, "OptionsSliderTemplate")
     slider:SetPoint("TOPLEFT", x, y)
-    slider:SetSize(200, 16)
+    slider:SetSize(220, 16)
     slider:SetMinMaxValues(minVal, maxVal)
     slider:SetValueStep(1)
     slider:SetObeyStepOnDrag(true)
     
     -- Labels
     local label = slider:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    label:SetPoint("BOTTOMLEFT", slider, "TOPLEFT", 0, 5)
+    label:SetPoint("BOTTOMLEFT", slider, "TOPLEFT", 0, 8)
     label:SetText(text)
     
     local valueLabel = slider:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    valueLabel:SetPoint("BOTTOMRIGHT", slider, "TOPRIGHT", 0, 5)
+    valueLabel:SetPoint("BOTTOMRIGHT", slider, "TOPRIGHT", 0, 8)
     
     -- Min/max labels
     slider.Low:SetText(minVal)
@@ -275,7 +240,7 @@ function GeneralPanel:CreateDropdown(parent, text, x, y, values, labels, getValu
     label:SetText(text)
     
     -- Initialize dropdown
-    UIDropDownMenu_SetWidth(dropdown, 120)
+    UIDropDownMenu_SetWidth(dropdown, 150)
     
     local function OnClick(self)
         UIDropDownMenu_SetSelectedID(dropdown, self:GetID())

@@ -10,10 +10,7 @@ local PANELS = {
     {name = "General", title = "General Settings", module = "GeneralPanel"},
     {name = "Alerts", title = "Alert Settings", module = "AlertsPanel"},
     {name = "Professions", title = "Professions", module = "ProfessionsPanel"},
-    {name = "Materials", title = "Custom Materials", module = "MaterialsPanel"},
-    {name = "Social", title = "Social Features", module = "SocialPanel"},
-    {name = "Profiles", title = "Profile Management", module = "ProfilesPanel"},
-    {name = "History", title = "Alert History", module = "HistoryPanel"}
+    {name = "Social", title = "Social Features", module = "SocialPanel"}
 }
 
 function MainFrame:Initialize()
@@ -25,7 +22,7 @@ end
 
 function MainFrame:CreateFrame()
     -- Main frame
-    local frame = CreateFrame("Frame", "GISUIMainFrame", UIParent, "PortraitFrameTemplate")
+    local frame = CreateFrame("Frame", "GISUIMainFrame", UIParent, "BasicFrameTemplateWithInset")
     self.frame = frame
     
     frame:SetSize(
@@ -109,15 +106,14 @@ function MainFrame:CreateFrame()
     separator:SetWidth(1)
     separator:SetColorTexture(0.3, 0.3, 0.3, 0.8)
     
-    -- Status bar at bottom
-    self:CreateStatusBar()
+    -- Status bar removed per user request
 end
 
 function MainFrame:CreateStatusBar()
     local statusBar = CreateFrame("Frame", nil, self.frame)
-    statusBar:SetPoint("BOTTOMLEFT", self.frame, "BOTTOMLEFT", 12, 12)
-    statusBar:SetPoint("BOTTOMRIGHT", self.frame, "BOTTOMRIGHT", -12, 12)
-    statusBar:SetHeight(20)
+    statusBar:SetPoint("BOTTOMLEFT", self.frame, "BOTTOMLEFT", 8, 8)
+    statusBar:SetPoint("BOTTOMRIGHT", self.frame, "BOTTOMRIGHT", -8, 8)
+    statusBar:SetHeight(18)
     self.statusBar = statusBar
     
     -- Background
@@ -141,16 +137,18 @@ function MainFrame:CreateStatusBar()
 end
 
 function MainFrame:UpdateStatusBar()
-    if addon.GIS.IsAvailable() then
-        local enabled = addon.GIS.Get("enabled")
-        local status = enabled and "|cff00ff00Online|r" or "|cffff0000Disabled|r"
-        self.statusText:SetText("GuildItemScanner: " .. status)
-        
-        local gisVersion = _G.GuildItemScanner and _G.GuildItemScanner.version or "Unknown"
-        self.versionText:SetText("GIS v" .. gisVersion .. " | UI v" .. addon.version)
-    else
-        self.statusText:SetText("|cffff0000GuildItemScanner not found|r")
-        self.versionText:SetText("UI v" .. addon.version)
+    if self.statusText and self.versionText then
+        if addon.GIS.IsAvailable() then
+            local enabled = addon.GIS.Get("enabled")
+            local status = enabled and "|cff00ff00Online|r" or "|cffff0000Disabled|r"
+            self.statusText:SetText("GuildItemScanner: " .. status)
+            
+            local gisVersion = _G.GuildItemScanner and _G.GuildItemScanner.version or "Unknown"
+            self.versionText:SetText("GIS v" .. gisVersion .. " | UI v" .. addon.version)
+        else
+            self.statusText:SetText("|cffff0000GuildItemScanner not found|r")
+            self.versionText:SetText("UI v" .. addon.version)
+        end
     end
 end
 
@@ -196,8 +194,6 @@ function MainFrame:CreateTab(panelInfo, index)
         GameTooltip:SetText(panelInfo.title)
         if panelInfo.name == "Social" then
             GameTooltip:AddLine("Requires Frontier addon", 1, 1, 0)
-        elseif panelInfo.name == "History" then
-            GameTooltip:AddLine("View recent alerts", 1, 1, 0)
         end
         GameTooltip:Show()
     end)
@@ -233,8 +229,8 @@ function MainFrame:ShowPanel(panelName)
     -- Update tab appearance
     for name, tab in pairs(self.tabs) do
         if name == panelName then
-            tab.bg:SetColorTexture(0.0, 0.5, 0.0, 0.8)  -- Green for active
-            tab.text:SetTextColor(1, 1, 1)
+            tab.bg:SetColorTexture(0.15, 0.35, 0.15, 0.9)  -- Darker green for active
+            tab.text:SetTextColor(0.9, 1, 0.9)
         else
             tab.bg:SetColorTexture(0.2, 0.2, 0.2, 0.8)  -- Gray for inactive
             tab.text:SetTextColor(0.8, 0.8, 0.8)
@@ -256,9 +252,6 @@ function MainFrame:ShowPanel(panelName)
     
     self.currentPanel = panelName
     addon:SetSetting("mainFrame", "currentPanel", panelName)
-    
-    -- Update status bar
-    self:UpdateStatusBar()
 end
 
 function MainFrame:CreatePlaceholderPanel(title)

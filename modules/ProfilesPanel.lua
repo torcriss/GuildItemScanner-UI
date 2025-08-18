@@ -67,15 +67,18 @@ function ProfilesPanel:CreatePanel(parent)
     saveButton:SetScript("OnClick", function()
         local profileName = nameInput:GetText()
         if profileName and profileName ~= "" and addon.GIS.IsAvailable() then
-            if _G.GuildItemScanner.Config.SaveProfile then
-                local success, msg = addon.GIS.SafeCall(_G.GuildItemScanner.Config.SaveProfile, profileName)
-                if success then
-                    print("|cff00ff00[GIS-UI]|r Profile saved: " .. profileName)
-                    self:UpdateCurrentProfile()
-                else
-                    print("|cffff0000[GIS-UI]|r Failed to save profile: " .. (msg or "Unknown error"))
-                end
+            local success, msg = addon.GIS.SaveProfile(profileName)
+            if success then
+                print("|cff00ff00[GIS-UI]|r Profile saved: " .. profileName)
+                self:UpdateCurrentProfile()
+                nameInput:SetText("") -- Clear input
+            else
+                print("|cffff0000[GIS-UI]|r Failed to save profile: " .. (msg or "Unknown error"))
             end
+        elseif not profileName or profileName == "" then
+            print("|cffff0000[GIS-UI]|r Please enter a profile name")
+        else
+            print("|cffff0000[GIS-UI]|r GuildItemScanner not available")
         end
     end)
     
@@ -96,8 +99,8 @@ end
 function ProfilesPanel:UpdateCurrentProfile()
     if not self.currentProfile then return end
     
-    if addon.GIS.IsAvailable() and _G.GuildItemScanner.Config.GetCurrentProfile then
-        local current = addon.GIS.SafeCall(_G.GuildItemScanner.Config.GetCurrentProfile)
+    if addon.GIS.IsAvailable() then
+        local current = addon.GIS.GetCurrentProfile()
         self.currentProfile:SetText(current or "DEFAULT")
     else
         self.currentProfile:SetText("|cffff0000Not Available|r")
