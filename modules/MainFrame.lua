@@ -10,7 +10,8 @@ local PANELS = {
     {name = "General", title = "General Settings", module = "GeneralPanel"},
     {name = "Alerts", title = "Alert Settings", module = "AlertsPanel"},
     {name = "Professions", title = "Professions", module = "ProfessionsPanel"},
-    {name = "Social", title = "Social Features", module = "SocialPanel"}
+    {name = "Social", title = "Social Features", module = "SocialPanel"},
+    {name = "History", title = "Alert History", module = "HistoryPanel"}
 }
 
 function MainFrame:Initialize()

@@ -4,7 +4,7 @@ A streamlined graphical user interface addon for configuring [GuildItemScanner](
 
 ## 🎯 Features
 
-- 🎨 **Clean, Focused Interface** - Streamlined 4-tab design with scrollable panels
+- 🎨 **Clean, Focused Interface** - Streamlined 5-tab design with scrollable panels
 - 🗺️ **Minimap Integration** - Quick access via minimap button, drag to reposition
 - ⚡ **Lightweight & Fast** - Optimized codebase for excellent performance
 - 🔄 **Live Configuration** - Changes apply immediately to GuildItemScanner
@@ -34,6 +34,12 @@ A streamlined graphical user interface addon for configuring [GuildItemScanner](
 - **Auto-GZ**: Automatically congratulate players on level ups
 - **Auto-RIP**: Send condolences when players die
 - ⚠️ **Requires**: [Frontier addon](https://github.com/torcriss/frontier) for functionality
+
+### 📜 Alert History
+- **View History**: Browse all recent alerts with timestamps
+- **Player Information**: See which players linked items
+- **Alert Types**: Identify what type of alert was triggered
+- **Clear History**: Remove all history entries with confirmation
 
 ## 🔧 Requirements
 
@@ -97,11 +103,15 @@ A streamlined graphical user interface addon for configuring [GuildItemScanner](
 
 ## 🆕 Recent Updates
 
-### v1.2.0 - Streamlined Experience
-- **Simplified Interface**: Removed Profile Management for focused experience
-- **Performance**: 60% reduction in code size for faster loading
-- **4 Essential Tabs**: General, Alerts, Professions, Social Features
-- **Consistent Design**: All panels use proper scrolling and spacing
+### v1.3.0 - Alert History Added
+- **New History Tab**: View and manage alert history with timestamps
+- **Visual History**: See player names, item names, and alert types
+- **Clear History**: Remove all history entries with confirmation dialog
+- **5 Complete Tabs**: General, Alerts, Professions, Social, History
+
+### v1.2.1 - Bug Fix
+- **Fixed Greed Button**: Resolved missing greed/request button issue
+- **TOC Cleanup**: Updated file references and version numbers
 
 ### v1.1.0 - UI Improvements
 - **Visual Polish**: Standardized spacing across all panels

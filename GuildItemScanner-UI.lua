@@ -1,11 +1,11 @@
 -- GuildItemScanner-UI: Graphical configuration interface for GuildItemScanner
--- Version: 1.2.0
+-- Version: 1.3.0
 
 local addonName, addon = ...
 addon = addon or {}
 
 -- Version info
-addon.version = "1.2.0"
+addon.version = "1.3.0"
 
 -- Initialize SavedVariables with defaults
 local defaultSettings = {
@@ -80,6 +80,78 @@ addon.GIS = {
                 return _G.GuildItemScanner.Config.Reset()
             end
             return false, "Reset function not available"
+        end)
+    end,
+    
+    GetHistory = function()
+        return SafeGISCall(function()
+            -- Try multiple possible API paths for history
+            if _G.GuildItemScanner then
+                -- Check if there's a database or saved variables for history
+                if _G.GuildItemScannerDB and _G.GuildItemScannerDB.alertHistory then
+                    return _G.GuildItemScannerDB.alertHistory
+                end
+                
+                -- Check Databases module
+                if _G.GuildItemScanner.Databases and _G.GuildItemScanner.Databases.history then
+                    return _G.GuildItemScanner.Databases.history
+                end
+                
+                -- Try accessing the internal history storage
+                if _G.GuildItemScanner.History and _G.GuildItemScanner.History.entries then
+                    return _G.GuildItemScanner.History.entries
+                end
+                
+                -- Direct history table
+                if _G.GuildItemScanner.alertHistory and type(_G.GuildItemScanner.alertHistory) == "table" then
+                    return _G.GuildItemScanner.alertHistory
+                end
+                
+                -- Database/saved variables
+                if _G.GuildItemScanner.db and _G.GuildItemScanner.db.alertHistory then
+                    return _G.GuildItemScanner.db.alertHistory
+                end
+                
+                -- Config module
+                if _G.GuildItemScanner.Config and _G.GuildItemScanner.Config.GetHistory then
+                    return _G.GuildItemScanner.Config.GetHistory()
+                end
+            end
+            
+            return {}
+        end) or {}
+    end,
+    
+    ClearHistory = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner then
+                -- Method 1: History module - try with proper error handling
+                if _G.GuildItemScanner.History and _G.GuildItemScanner.History.ClearHistory then
+                    local success, result = pcall(_G.GuildItemScanner.History.ClearHistory)
+                    if success then
+                        return true
+                    end
+                    -- Fall through to direct clearing if GIS function fails
+                end
+                
+                -- Method 2: Direct database clear (this should always work)
+                if _G.GuildItemScannerDB and _G.GuildItemScannerDB.alertHistory then
+                    _G.GuildItemScannerDB.alertHistory = {}
+                    return true
+                end
+                
+                -- Method 3: Config module
+                if _G.GuildItemScanner.Config and _G.GuildItemScanner.Config.ClearHistory then
+                    return _G.GuildItemScanner.Config.ClearHistory()
+                end
+                
+                -- Method 4: Direct addon table clear
+                if _G.GuildItemScanner.alertHistory then
+                    _G.GuildItemScanner.alertHistory = {}
+                    return true
+                end
+            end
+            return false, "Clear history function not available"
         end)
     end
 }

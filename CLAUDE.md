@@ -100,16 +100,16 @@ end
 
 ## Current Interface Structure
 
-### 4 Core Panels
+### 5 Core Panels
 1. **General Settings** - Core GIS configuration, toggles, and timing
 2. **Alert Settings** - Recipe, material, bag, and potion alerts with filters  
 3. **Professions** - Add/remove professions for detection
 4. **Social Features** - Auto-GZ and Auto-RIP (requires Frontier)
+5. **Alert History** - View and manage alert history with timestamps and player info
 
 ### Removed Features
 - **Profile Management** - Removed in v1.2.0 for streamlined experience
 - **Custom Materials** - Never fully implemented, removed for simplicity
-- **Alert History** - Never implemented, removed for focus
 
 ## File Structure
 
@@ -124,9 +124,9 @@ GuildItemScanner-UI/
 │   ├── AlertsPanel.lua             # Alert configuration
 │   ├── ProfessionsPanel.lua        # Profession management
 │   ├── SocialPanel.lua             # Social features
+│   ├── HistoryPanel.lua            # Alert history viewer
 │   ├── MaterialsPanel.lua          # (Inactive)
-│   ├── ProfilesPanel.lua           # (Inactive)
-│   └── HistoryPanel.lua            # (Inactive)
+│   └── ProfilesPanel.lua           # (Inactive)
 ├── README.md                       # User documentation
 ├── CLAUDE.md                       # This file
 ├── LICENSE                         # MIT license
@@ -139,7 +139,7 @@ GuildItemScanner-UI/
 ### Before Every Commit
 - [ ] Test with GIS enabled and working
 - [ ] Test with GIS disabled/not loaded
-- [ ] Test all 4 panel navigation
+- [ ] Test all 5 panel navigation
 - [ ] Test minimap button functionality
 - [ ] Test settings persistence
 - [ ] Verify no Lua errors in log
@@ -152,6 +152,7 @@ GuildItemScanner-UI/
 - [ ] Alerts Panel: Settings apply to GIS, proper spacing
 - [ ] Professions Panel: Add/remove functionality, dropdown works
 - [ ] Social Panel: Toggles work with Frontier, tooltips clear
+- [ ] History Panel: Display history, refresh works, clear history with confirmation
 
 ## API Reference
 
@@ -169,6 +170,10 @@ addon.GIS.Toggle(key)
 addon.GIS.GetProfessions()
 addon.GIS.AddProfession(profession)
 addon.GIS.RemoveProfession(profession)
+
+-- History management
+addon.GIS.GetHistory()
+addon.GIS.ClearHistory()
 
 -- Safe generic calls
 addon.GIS.SafeCall(func, ...)
@@ -268,7 +273,14 @@ git push
 3. Update README and CLAUDE.md if needed
 4. Commit and tag release
 5. Create GitHub release with notes
-6. Deploy and verify
+6. **Delete previous release** - Only maintain latest version
+7. Deploy and verify
+
+### Release Policy
+- **ONLY ONE RELEASE**: Always maintain only the latest release on GitHub
+- **Delete previous releases** immediately after creating a new one
+- This keeps the download simple and avoids confusion for users
+- Users should always get the most current version
 
 ## Important Reminders
 
