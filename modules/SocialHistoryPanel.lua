@@ -55,7 +55,7 @@ function SocialHistoryPanel:CreatePanel(parent)
     warning:SetPoint("TOPLEFT", 10, yOffset)
     warning:SetWidth(350)
     warning:SetJustifyH("LEFT")
-    warning:SetText("|cffff8000Warning:|r Social features require the Frontier addon to function.")
+    warning:SetText("|cffff8000Warning:|r Social history requires the Frontier addon to function.")
     yOffset = yOffset - 30
     
     -- Clear Social History button
