@@ -118,14 +118,21 @@ function HistoryPanel:RefreshHistory()
 end
 
 function HistoryPanel:CreateHistoryEntry(entry, yOffset)
-    local frame = CreateFrame("Frame", nil, self.historyContainer)
+    -- Create as button to make it clickable
+    local frame = CreateFrame("Button", nil, self.historyContainer)
     frame:SetSize(350, 55)
     frame:SetPoint("TOPLEFT", 10, yOffset)
+    frame:EnableMouse(true)
     
     -- Background
     local bg = frame:CreateTexture(nil, "BACKGROUND")
     bg:SetAllPoints()
     bg:SetColorTexture(0.1, 0.1, 0.1, 0.3)
+    
+    -- Highlight texture for hover effect
+    local highlight = frame:CreateTexture(nil, "HIGHLIGHT")
+    highlight:SetAllPoints()
+    highlight:SetColorTexture(0.2, 0.2, 0.2, 0.5)
     
     -- Border
     local border = frame:CreateTexture(nil, "BORDER")
@@ -159,7 +166,56 @@ function HistoryPanel:CreateHistoryEntry(entry, yOffset)
     typeLabel:SetPoint("TOPRIGHT", -5, -35)
     typeLabel:SetText("|cff4488ff" .. alertType .. "|r")
     
+    -- Click handler for whisper functionality
+    frame:SetScript("OnClick", function()
+        self:SendWhisper(entry)
+    end)
+    
+    -- Tooltip for click functionality
+    frame:SetScript("OnEnter", function()
+        GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
+        GameTooltip:SetText("Click to whisper player")
+        GameTooltip:AddLine("Will ask: Is this " .. (entry.item or "item") .. " still available. I could use it, if no one needs.", 1, 1, 1, true)
+        GameTooltip:Show()
+    end)
+    
+    frame:SetScript("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+    
     return frame
+end
+
+function HistoryPanel:SendWhisper(entry)
+    -- Validate entry data
+    if not entry or not entry.player or not entry.item then
+        print("|cffff0000[GIS-UI]|r Invalid history entry for whisper")
+        return
+    end
+    
+    -- Check if GIS is available to respect whisper settings
+    if not addon.GIS.IsAvailable() then
+        print("|cffff0000[GIS-UI]|r GuildItemScanner not available")
+        return
+    end
+    
+    -- Get whisper mode setting from GIS (same pattern as GIS alerts)
+    local whisperMode = addon.GIS.Get("whisperMode")
+    local channel = whisperMode and "WHISPER" or "GUILD"
+    local target = whisperMode and entry.player or nil
+    
+    -- Create the whisper message using the requested format
+    local msg = "Is this " .. entry.item .. " still available. I could use it, if no one needs."
+    
+    -- Send the message
+    SendChatMessage(msg, channel, nil, target)
+    
+    -- Provide feedback to user
+    if whisperMode then
+        print("|cff00ff00[GIS-UI]|r Whispered " .. entry.player .. " about " .. entry.item)
+    else
+        print("|cff00ff00[GIS-UI]|r Asked guild about " .. entry.item)
+    end
 end
 
 function HistoryPanel:ShowMessage(message)
