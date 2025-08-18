@@ -14,6 +14,8 @@ function HistoryPanel:GetPanel(parent)
     end
     -- Auto-refresh history whenever the panel is accessed
     self:RefreshHistory()
+    -- Update whisper mode status when panel is accessed
+    self:UpdateWhisperModeStatus()
     return self.panel
 end
 
@@ -61,12 +63,23 @@ function HistoryPanel:CreatePanel(parent)
     
     yOffset = yOffset - 40
     
+    -- Whisper mode status indicator
+    local whisperStatus = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    whisperStatus:SetPoint("TOPLEFT", 10, yOffset)
+    whisperStatus:SetWidth(380)
+    whisperStatus:SetJustifyH("LEFT")
+    self.whisperStatus = whisperStatus
+    
+    yOffset = yOffset - 25
+    
     -- History list container
     self.historyContainer = content
     self.historyStartY = yOffset
     
     -- Initial load
     self:RefreshHistory()
+    -- Initial whisper mode status update
+    self:UpdateWhisperModeStatus()
     
     panel:Hide()
     return panel
@@ -231,6 +244,21 @@ function HistoryPanel:SendWhisper(entry)
         print("|cff00ff00[GIS-UI]|r Whispered " .. entry.player .. " about " .. entry.item)
     else
         print("|cff00ff00[GIS-UI]|r Asked guild about " .. entry.item)
+    end
+end
+
+function HistoryPanel:UpdateWhisperModeStatus()
+    if not self.whisperStatus then return end
+    
+    if addon.GIS.IsAvailable() then
+        local whisperMode = addon.GIS.Get("whisperMode")
+        if whisperMode then
+            self.whisperStatus:SetText("|cff00ff00Request Mode: WHISPER|r (Messages sent directly to player)")
+        else
+            self.whisperStatus:SetText("|cffffff00Request Mode: GUILD|r (Messages sent to guild channel)")
+        end
+    else
+        self.whisperStatus:SetText("|cffff0000GuildItemScanner not available|r")
     end
 end
 
