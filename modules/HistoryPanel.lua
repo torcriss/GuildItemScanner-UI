@@ -82,6 +82,11 @@ function HistoryPanel:RefreshHistory()
     end
     self.historyFrames = {}
     
+    -- Hide the "more entries" label
+    if self.moreEntriesLabel then
+        self.moreEntriesLabel:Hide()
+    end
+    
     -- Check if GIS is available
     if not addon.GIS.IsAvailable() then
         self:ShowMessage("GuildItemScanner not available")
@@ -105,12 +110,23 @@ function HistoryPanel:RefreshHistory()
         self.messageLabel:Hide()
     end
     
-    -- Display history entries
+    -- Display history entries with limit
+    local MAX_DISPLAY = 20  -- Limit display to 20 entries for performance
+    local totalEntries = #history
+    local displayedEntries = math.min(MAX_DISPLAY, totalEntries)
+    
     local yOffset = self.historyStartY
-    for i, entry in ipairs(history) do
+    for i = 1, displayedEntries do
+        local entry = history[i]
         local frame = self:CreateHistoryEntry(entry, yOffset)
         table.insert(self.historyFrames, frame)
         yOffset = yOffset - 60  -- Space for each entry
+    end
+    
+    -- Add "showing X of Y" message if there are more entries
+    if totalEntries > MAX_DISPLAY then
+        self:ShowMoreMessage(totalEntries, displayedEntries, yOffset)
+        yOffset = yOffset - 30  -- Space for the message
     end
     
     -- Update content size for scrolling
@@ -239,6 +255,24 @@ function HistoryPanel:ShowMessage(message)
     
     self.messageLabel:SetText(message)
     self.messageLabel:Show()
+end
+
+function HistoryPanel:ShowMoreMessage(totalEntries, displayedEntries, yOffset)
+    -- Create or reuse the "more entries" label
+    if not self.moreEntriesLabel then
+        self.moreEntriesLabel = self.historyContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        self.moreEntriesLabel:SetWidth(350)
+        self.moreEntriesLabel:SetJustifyH("CENTER")
+    end
+    
+    local hiddenEntries = totalEntries - displayedEntries
+    local message = string.format("|cff888888Showing %d of %d alerts (%d more available)|r", 
+                                 displayedEntries, totalEntries, hiddenEntries)
+    
+    self.moreEntriesLabel:SetText(message)
+    self.moreEntriesLabel:ClearAllPoints()
+    self.moreEntriesLabel:SetPoint("TOPLEFT", 10, yOffset)
+    self.moreEntriesLabel:Show()
 end
 
 function HistoryPanel:ClearHistory()
