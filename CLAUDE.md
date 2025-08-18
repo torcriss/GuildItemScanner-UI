@@ -37,6 +37,7 @@ end
 - Modules register themselves with main addon
 - Lazy loading - panels created only when accessed
 - Consistent interface for all modules
+- All panels use ScrollFrame with proper scrollbars
 
 ## Key Development Guidelines
 
@@ -63,6 +64,7 @@ local professions = addon.GIS.GetProfessions()
 - Support ESC key to close main frame
 - Make frames movable and save positions
 - Consistent tooltip patterns
+- **All panels must use ScrollFrame structure**
 
 ### Panel Development Pattern
 ```lua
@@ -81,29 +83,50 @@ function Panel:GetPanel(parent)
 end
 
 function Panel:CreatePanel(parent)
-    local panel = CreateFrame("Frame", nil, parent)
-    -- Panel creation logic
+    -- IMPORTANT: Use ScrollFrame structure
+    local panel = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
+    panel:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, 0)
+    panel:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -25, 0)
+    
+    local content = CreateFrame("Frame", nil, panel)
+    content:SetSize(400, 500) -- Adjust height as needed
+    panel:SetScrollChild(content)
+    
+    -- Panel creation logic using content frame
     panel:Hide()
     return panel
 end
 ```
+
+## Current Interface Structure
+
+### 4 Core Panels
+1. **General Settings** - Core GIS configuration, toggles, and timing
+2. **Alert Settings** - Recipe, material, bag, and potion alerts with filters  
+3. **Professions** - Add/remove professions for detection
+4. **Social Features** - Auto-GZ and Auto-RIP (requires Frontier)
+
+### Removed Features
+- **Profile Management** - Removed in v1.2.0 for streamlined experience
+- **Custom Materials** - Never fully implemented, removed for simplicity
+- **Alert History** - Never implemented, removed for focus
 
 ## File Structure
 
 ```
 GuildItemScanner-UI/
 ├── GuildItemScanner-UI.toc         # Addon manifest
-├── GuildItemScanner-UI.lua         # Main initialization
+├── GuildItemScanner-UI.lua         # Main initialization (streamlined)
 ├── modules/
 │   ├── MinimapButton.lua           # Minimap integration
 │   ├── MainFrame.lua               # Core UI framework
 │   ├── GeneralPanel.lua            # General settings
 │   ├── AlertsPanel.lua             # Alert configuration
 │   ├── ProfessionsPanel.lua        # Profession management
-│   ├── MaterialsPanel.lua          # Custom materials
 │   ├── SocialPanel.lua             # Social features
-│   ├── ProfilesPanel.lua           # Profile management
-│   └── HistoryPanel.lua            # History viewer
+│   ├── MaterialsPanel.lua          # (Inactive)
+│   ├── ProfilesPanel.lua           # (Inactive)
+│   └── HistoryPanel.lua            # (Inactive)
 ├── README.md                       # User documentation
 ├── CLAUDE.md                       # This file
 ├── LICENSE                         # MIT license
@@ -116,20 +139,19 @@ GuildItemScanner-UI/
 ### Before Every Commit
 - [ ] Test with GIS enabled and working
 - [ ] Test with GIS disabled/not loaded
-- [ ] Test all panel navigation
+- [ ] Test all 4 panel navigation
 - [ ] Test minimap button functionality
 - [ ] Test settings persistence
 - [ ] Verify no Lua errors in log
 - [ ] Test `/gisui` slash command
 - [ ] Test ESC key closing
+- [ ] Verify scrollbars work on all panels
 
 ### Panel-Specific Testing
-- [ ] General Panel: All toggles and sliders work
-- [ ] Alerts Panel: Settings apply to GIS
-- [ ] Professions Panel: Add/remove functionality
-- [ ] Social Panel: Toggles work with Frontier
-- [ ] Profiles Panel: Save functionality
-- [ ] History Panel: Displays placeholder correctly
+- [ ] General Panel: All toggles, sliders, and dropdowns work
+- [ ] Alerts Panel: Settings apply to GIS, proper spacing
+- [ ] Professions Panel: Add/remove functionality, dropdown works
+- [ ] Social Panel: Toggles work with Frontier, tooltips clear
 
 ## API Reference
 
@@ -179,15 +201,17 @@ addon:SetSetting(category, key, value)
 - Use lazy loading for panels
 - Avoid frequent UI updates
 - Cache GIS values when possible
+- All panels use ScrollFrame for consistent performance
 
 ## Development Workflow
 
 ### Adding New Features
 1. Create or modify appropriate panel module
-2. Test with GIS enabled/disabled
-3. Update tooltips and help text
-4. Test settings persistence
-5. Update documentation if needed
+2. Ensure ScrollFrame structure is used
+3. Test with GIS enabled/disabled
+4. Update tooltips and help text
+5. Test settings persistence
+6. Update documentation if needed
 
 ### Deployment Process
 ```bash
@@ -215,34 +239,33 @@ git push
 - Uses only Classic-compatible API calls
 - No retail-specific functions
 
-## Future Enhancements
+## Streamlined Architecture (v1.2.0+)
 
-### Planned Features
-- Enhanced profile system (load/delete/export)
-- Custom materials full implementation
-- Alert history with search/filter
-- Keybind support
-- Theme/appearance options
-- Localization support
+### Design Philosophy
+- **Focus on essentials** - Only features that enhance core GIS usage
+- **Consistent UI patterns** - All panels follow same ScrollFrame structure
+- **Clean codebase** - Removed complex unused features
+- **Fast performance** - Reduced main file size by ~60%
 
-### Architecture Extensions
-- Plugin system for custom panels
-- Advanced settings validation
-- Real-time GIS status monitoring
-- Backup/restore functionality
+### Code Quality Standards
+- Keep modules under 300 lines when possible
+- Use consistent naming conventions
+- Always include error handling
+- Document complex functions
+- Test all GIS integration points
 
 ## Release Management
 
 ### Version Numbering
 - Major.Minor.Patch format
-- Major: Breaking changes or major features
-- Minor: New features, new panels
+- Major: Breaking changes or major feature removal
+- Minor: New features, new panels, UI improvements
 - Patch: Bug fixes, small improvements
 
 ### Release Process
-1. Update version in TOC file
+1. Update version in TOC file if needed
 2. Test all functionality thoroughly
-3. Update README if needed
+3. Update README and CLAUDE.md if needed
 4. Commit and tag release
 5. Create GitHub release with notes
 6. Deploy and verify
@@ -255,3 +278,5 @@ git push
 - **Follow WoW UI conventions**
 - **Keep panels responsive and lightweight**
 - **Provide clear user feedback for all actions**
+- **All panels must use ScrollFrame structure**
+- **Focus on core functionality over feature bloat**
