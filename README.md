@@ -4,10 +4,9 @@ A graphical user interface addon for configuring [GuildItemScanner](https://gith
 
 ## 🎯 Features
 
-- 🎨 **Clean, Intuitive Interface** - Easy-to-use tabbed configuration window
-- 🗺️ **Minimap Button** - Quick access with left-click to open, right-click for menu
-- 📋 **Organized Panels** - Separate tabs for different setting categories
-- 💾 **Profile Management** - Save and load different configurations
+- 🎨 **Clean, Intuitive Interface** - Easy-to-use tabbed configuration window with scrollable panels
+- 🗺️ **Minimap Button** - Quick access with left-click to open, drag to reposition
+- 📋 **Organized Panels** - Four focused tabs for essential settings
 - 🔄 **Live Updates** - Changes apply immediately to GuildItemScanner
 - 📜 **Safe Integration** - No risk of breaking GuildItemScanner functionality
 
@@ -16,35 +15,26 @@ A graphical user interface addon for configuring [GuildItemScanner](https://gith
 ### General Settings
 - Enable/disable addon
 - Debug mode toggle
-- Sound and timing settings
+- Sound alerts and whisper mode
+- Greed mode and WTB filtering
+- Alert duration settings
 - Equipment comparison options
-- WTB filtering controls
 
 ### Alert Settings
-- Recipe, Material, Bag, Potion, and Equipment alert toggles
+- Recipe, Material, Bag, and Potion alert toggles
 - Material rarity and quantity filters
 - Bag size filtering
-- Equipment upgrade detection
-- Alert customization
+- Alert customization options
 
 ### Professions
 - Add/remove professions for recipe and material detection
 - View current profession list
-- Clear all professions
+- Clear all professions option
 
 ### Social Features ⚠️
-- Auto-GZ and Auto-RIP toggles
+- Auto-GZ (congratulations) on level ups
+- Auto-RIP (condolences) on player deaths
 - **Requires Frontier addon**
-- Custom message management (coming soon)
-
-### Profile Management
-- Auto-save enabled by default
-- Save current settings as named profiles
-- Load and manage different configurations
-
-### Alert History
-- View recent alerts (coming soon)
-- Search and filter functionality (coming soon)
 
 ## 🔧 Requirements
 
@@ -65,18 +55,17 @@ A graphical user interface addon for configuring [GuildItemScanner](https://gith
 ### Opening the Interface
 - **Click** the minimap button (gear icon)
 - **Type** `/gisui` or `/gis-ui` in chat
-- **Right-click** minimap button for quick toggles
 
 ### Navigation
 - **Click tabs** on the left to switch between panels
+- **Scroll** within panels to access all settings
 - **Hover** over controls for helpful tooltips
 - **Changes save automatically** - no need to click "Apply"
 
 ### Minimap Button
 - **Left-click**: Open main configuration window
-- **Right-click**: Quick menu with common toggles
 - **Drag**: Reposition the button around the minimap
-- **Hide**: Use the quick menu option (use `/gisui` to reopen)
+- **Hide**: Use the interface settings (use `/gisui` to reopen)
 
 ## 🛡️ Safety & Compatibility
 
@@ -98,16 +87,16 @@ A graphical user interface addon for configuring [GuildItemScanner](https://gith
 
 ### Minimap Button Missing
 - Use `/gisui` command to open the interface
-- Check the General settings panel for button visibility options
+- Check if the button was hidden through settings
 
-## 🔮 Coming Soon
+## 🆕 Recent Updates (v1.1.0)
 
-- **Enhanced Social Panel** - Custom GZ/RIP messages and chance settings
-- **Full Profile System** - Load, delete, import/export profiles
-- **Custom Materials Manager** - Add items not in default database
-- **Alert History Viewer** - Search and filter recent alerts
-- **Keybind Support** - Hotkeys for quick access
-- **Theme Options** - Customize appearance
+- **Improved spacing** and visual consistency across all panels
+- **Added scrollbars** to all panels for better navigation
+- **Fixed minimap button** hover issue (no longer goes black)
+- **Removed unused features** (Custom Materials, Alert History, Profile Management)
+- **Simplified minimap interaction** (removed right-click menu)
+- **Enhanced Social Features** with proper tooltips and helper functions
 
 ## 🤝 Support
 
