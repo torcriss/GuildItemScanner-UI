@@ -153,6 +153,44 @@ addon.GIS = {
             end
             return false, "Clear history function not available"
         end)
+    end,
+    
+    GetSocialHistory = function()
+        return SafeGISCall(function()
+            -- Try multiple possible API paths for social history
+            if _G.GuildItemScanner then
+                -- Check SavedVariables first
+                if _G.GuildItemScannerDB and _G.GuildItemScannerDB.socialHistory then
+                    return _G.GuildItemScannerDB.socialHistory
+                end
+                
+                -- Check Social module
+                if _G.GuildItemScanner.Social and _G.GuildItemScanner.Social.GetSocialHistory then
+                    return _G.GuildItemScanner.Social.GetSocialHistory()
+                end
+            end
+            
+            return {}
+        end) or {}
+    end,
+    
+    ClearSocialHistory = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner then
+                -- Method 1: Social module
+                if _G.GuildItemScanner.Social and _G.GuildItemScanner.Social.ClearSocialHistory then
+                    _G.GuildItemScanner.Social.ClearSocialHistory()
+                    return true
+                end
+                
+                -- Method 2: Direct SavedVariables clear
+                if _G.GuildItemScannerDB then
+                    _G.GuildItemScannerDB.socialHistory = {}
+                    return true
+                end
+            end
+            return false, "Clear social history function not available"
+        end)
     end
 }
 

@@ -12,6 +12,7 @@ local PANELS = {
     {name = "Professions", title = "Professions", module = "ProfessionsPanel"},
     {name = "Social", title = "Social Features", module = "SocialPanel"},
     {name = "History", title = "Alert History", module = "HistoryPanel"},
+    {name = "SocialHistory", title = "Social History", module = "SocialHistoryPanel"},
     {name = "Admin", title = "Admin Tools", module = "AdminPanel"}
 }
 
