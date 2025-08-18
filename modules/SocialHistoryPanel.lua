@@ -48,11 +48,19 @@ function SocialHistoryPanel:CreatePanel(parent)
     end)
     self.refreshButton = refreshButton
     
-    yOffset = yOffset - 35
+    yOffset = yOffset - 30
+    
+    -- Warning about Frontier requirement
+    local warning = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    warning:SetPoint("TOPLEFT", 10, yOffset)
+    warning:SetWidth(350)
+    warning:SetJustifyH("LEFT")
+    warning:SetText("|cffff8000Warning:|r Social features require the Frontier addon to function.")
+    yOffset = yOffset - 30
     
     -- Clear Social History button
     local clearButton = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
-    clearButton:SetSize(120, 25)
+    clearButton:SetSize(140, 25)
     clearButton:SetPoint("TOPLEFT", 10, yOffset)
     clearButton:SetText("Clear Social History")
     clearButton:SetScript("OnClick", function()
