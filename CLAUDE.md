@@ -295,3 +295,11 @@ git push
 - **Provide clear user feedback for all actions**
 - **All panels must use ScrollFrame structure**
 - **Focus on core functionality over feature bloat**
+
+## Commit and Release Policy
+
+- **Auto-approved commits**: User has approved all commit and release messages
+- **Auto commit**: Can commit changes without asking for approval
+- **Auto release**: Can create releases without requesting permission
+- **Standard format**: Use consistent commit message format with Claude Code attribution
+- **One release policy**: Always delete previous release when creating new one

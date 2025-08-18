@@ -46,13 +46,6 @@ function GeneralPanel:CreatePanel(parent)
     )
     yOffset = yOffset - 30
     
-    -- Debug mode
-    local debugCheck = self:CreateCheckbox(content, "Debug Mode", 10, yOffset,
-        function() return addon.GIS.Get("debugMode") end,
-        function(checked) addon.GIS.Set("debugMode", checked) end,
-        "Show detailed debug information in chat"
-    )
-    yOffset = yOffset - 30
     
     -- Sound alerts
     local soundCheck = self:CreateCheckbox(content, "Sound Alerts", 10, yOffset,
@@ -121,7 +114,7 @@ function GeneralPanel:CreatePanel(parent)
     
     -- Store controls for refresh
     self.controls = {
-        enableCheck, debugCheck, soundCheck, whisperCheck, greedCheck, wtbCheck,
+        enableCheck, soundCheck, whisperCheck, greedCheck, wtbCheck,
         alertSlider, comparisonDropdown
     }
     

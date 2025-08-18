@@ -46,6 +46,21 @@ function AdminPanel:CreatePanel(parent)
     desc:SetText("Testing and debugging tools for GuildItemScanner")
     yOffset = yOffset - 40
     
+    -- Debug section
+    local debugTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    debugTitle:SetPoint("TOPLEFT", 10, yOffset)
+    debugTitle:SetText("Debug Settings")
+    debugTitle:SetTextColor(0.9, 0.9, 0.9)
+    yOffset = yOffset - 30
+    
+    -- Debug mode checkbox
+    self:CreateCheckbox(content, "Debug Mode", 10, yOffset,
+        function() return addon.GIS.Get("debugMode") end,
+        function(checked) addon.GIS.Set("debugMode", checked) end,
+        "Show detailed debug information in chat"
+    )
+    yOffset = yOffset - 40
+    
     -- Testing section
     local testTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     testTitle:SetPoint("TOPLEFT", 10, yOffset)
@@ -119,4 +134,44 @@ function AdminPanel:SetStatus(message)
     if self.statusText then
         self.statusText:SetText(message)
     end
+end
+
+function AdminPanel:CreateCheckbox(parent, text, x, y, getValue, setValue, tooltip)
+    local check = CreateFrame("CheckButton", nil, parent, "UICheckButtonTemplate")
+    check:SetPoint("TOPLEFT", x, y)
+    check:SetSize(24, 24)
+    
+    local label = check:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    label:SetPoint("LEFT", check, "RIGHT", 5, 0)
+    label:SetText(text)
+    
+    -- Set initial value
+    if addon.GIS.IsAvailable() then
+        check:SetChecked(getValue())
+    else
+        check:SetEnabled(false)
+    end
+    
+    check:SetScript("OnClick", function(self)
+        if addon.GIS.IsAvailable() then
+            setValue(self:GetChecked())
+        else
+            self:SetChecked(false)
+        end
+    end)
+    
+    -- Tooltip
+    if tooltip then
+        check:SetScript("OnEnter", function()
+            GameTooltip:SetOwner(check, "ANCHOR_RIGHT")
+            GameTooltip:SetText(text)
+            GameTooltip:AddLine(tooltip, 1, 1, 1, true)
+            GameTooltip:Show()
+        end)
+        check:SetScript("OnLeave", function()
+            GameTooltip:Hide()
+        end)
+    end
+    
+    return check
 end
