@@ -94,7 +94,7 @@ A graphical user interface addon for configuring [GuildItemScanner](https://gith
 - **Improved spacing** and visual consistency across all panels
 - **Added scrollbars** to all panels for better navigation
 - **Fixed minimap button** hover issue (no longer goes black)
-- **Removed unused features** (Custom Materials, Alert History, Profile Management)
+- **Removed unused features** for cleaner, focused interface
 - **Simplified minimap interaction** (removed right-click menu)
 - **Enhanced Social Features** with proper tooltips and helper functions
 

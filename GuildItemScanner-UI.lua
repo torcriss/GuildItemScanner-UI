@@ -74,25 +74,6 @@ addon.GIS = {
         return SafeGISCall(function() return _G.GuildItemScanner.Config.RemoveProfession(prof) end)
     end,
     
-    -- Profile management functions
-    GetCurrentProfile = function()
-        return SafeGISCall(function() 
-            if _G.GuildItemScanner.Config.GetCurrentProfile then
-                return _G.GuildItemScanner.Config.GetCurrentProfile()
-            end
-            return "DEFAULT"
-        end)
-    end,
-    
-    SaveProfile = function(name)
-        return SafeGISCall(function() 
-            if _G.GuildItemScanner.Config.SaveProfile then
-                return _G.GuildItemScanner.Config.SaveProfile(name)
-            end
-            return false, "Profile save function not available"
-        end)
-    end,
-    
     Reset = function()
         return SafeGISCall(function()
             if _G.GuildItemScanner.Config.Reset then
