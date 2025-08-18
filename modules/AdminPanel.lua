@@ -13,7 +13,7 @@ function AdminPanel:GetPanel(parent)
         self:CreatePanel(parent)
     end
     -- Clear status when panel is accessed
-    self:SetStatus("Ready")
+    self:SetStatus("|cffffff00Ready|r")
     return self.panel
 end
 
@@ -101,7 +101,7 @@ function AdminPanel:CreatePanel(parent)
     statusText:SetPoint("TOPLEFT", 10, yOffset)
     statusText:SetWidth(350)
     statusText:SetJustifyH("LEFT")
-    statusText:SetText("Ready")
+    statusText:SetText("|cffffff00Ready|r")
     self.statusText = statusText
     
     panel:Hide()
