@@ -209,7 +209,7 @@ function SocialHistoryPanel:CreateSocialHistoryEntry(entry, yOffset)
     local detailsText = ""
     if entry.details then
         if eventType == "GZ" and entry.details.achievement then
-            detailsText = "Achievement"
+            detailsText = entry.details.achievement
         elseif eventType == "RIP" and entry.details.level then
             detailsText = "Level " .. entry.details.level
         end
