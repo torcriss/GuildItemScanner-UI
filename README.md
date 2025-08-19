@@ -1,14 +1,15 @@
 # GuildItemScanner-UI
 
-A streamlined graphical user interface addon for configuring [GuildItemScanner](https://github.com/torcriss/GuildItemScanner) in World of Warcraft Classic Era.
+A comprehensive graphical user interface addon for configuring [GuildItemScanner](https://github.com/torcriss/GuildItemScanner) in World of Warcraft Classic Era.
 
 ## 🎯 Features
 
-- 🎨 **Clean, Focused Interface** - Streamlined 6-tab design with scrollable panels
-- 🗺️ **Minimap Integration** - Quick access via minimap button, drag to reposition
+- 🎨 **Complete Interface** - 7-panel design covering all GuildItemScanner functionality
+- 🗺️ **Minimap Integration** - Quick access via minimap button, drag to reposition  
 - ⚡ **Lightweight & Fast** - Optimized codebase for excellent performance
 - 🔄 **Live Configuration** - Changes apply immediately to GuildItemScanner
 - 🛡️ **Safe Integration** - No risk of breaking GuildItemScanner functionality
+- 💬 **Interactive History** - Clickable alert and social history with messaging features
 
 ## 📋 Interface Overview
 
@@ -36,15 +37,26 @@ A streamlined graphical user interface addon for configuring [GuildItemScanner](
 - ⚠️ **Requires**: [Frontier addon](https://github.com/torcriss/frontier) for functionality
 
 ### 📜 Alert History
-- **View History**: Browse all recent alerts with timestamps
-- **Player Information**: See which players linked items
+- **View History**: Browse latest 20 alerts with timestamps and details
+- **Clickable Entries**: Click any alert to whisper the player about item availability
+- **Whisper Mode Support**: Respects GIS whisper settings for messaging behavior
+- **Player Information**: See which players linked items and when
 - **Alert Types**: Identify what type of alert was triggered
 - **Clear History**: Remove all history entries with confirmation
+
+### 🎉 Social History  
+- **Auto-GZ/RIP Tracking**: View automatic congratulations and condolences sent
+- **Achievement Details**: See specific achievements that triggered congratulations
+- **Clickable Entries**: Click to send follow-up guild messages or whispers
+- **Message Mode Selection**: Choose between guild messages and private whispers
+- **Visual Distinction**: Color-coded entries (green for GZ, red for RIP)
+- **Latest 20 Events**: Performance-optimized display of recent social interactions
+- ⚠️ **Requires**: [Frontier addon](https://github.com/torcriss/frontier) for data
 
 ### 🔧 Admin Tools
 - **Smoke Test**: Run GuildItemScanner diagnostic tests
 - **Status Display**: Shows test results and system status
-- **Debug Tools**: Testing and troubleshooting utilities
+- **Debug Tools**: Testing and troubleshooting utilities with advanced controls
 
 ## 🔧 Requirements
 
@@ -108,21 +120,29 @@ A streamlined graphical user interface addon for configuring [GuildItemScanner](
 
 ## 🆕 Recent Updates
 
-### v1.3.0 - Alert History Added
-- **New History Tab**: View and manage alert history with timestamps
-- **Visual History**: See player names, item names, and alert types
-- **Clear History**: Remove all history entries with confirmation dialog
-- **5 Complete Tabs**: General, Alerts, Professions, Social, History
+### v1.7.0 - Social History Message Mode Selection
+- **🎛️ Message Mode Selection**: Choose between guild messages and whispers in Social History
+- **📻 Radio Button Controls**: Clear "Send to Guild" vs "Whisper Player" options
+- **💾 Settings Persistence**: Your selection is saved across game sessions
+- **🎯 Dynamic Tooltips**: Shows exactly what will be sent based on selected mode
 
-### v1.2.1 - Bug Fix
-- **Fixed Greed Button**: Resolved missing greed/request button issue
-- **TOC Cleanup**: Updated file references and version numbers
+### v1.6.0 - Social History Panel Added
+- **🎉 New Social History Panel**: View and interact with Auto-GZ and Auto-RIP history
+- **🎯 Clickable Social Events**: Click entries to send guild messages for congratulations/condolences
+- **🎨 Visual Event Distinction**: Color-coded backgrounds (green for GZ, red for RIP)
+- **🏆 Full Achievement Details**: Shows specific achievement names like "Reach Level 30"
 
-### v1.1.0 - UI Improvements
-- **Visual Polish**: Standardized spacing across all panels
-- **Scrollbars**: Added proper scrolling to all panels
-- **Bug Fixes**: Fixed minimap button hover issues
-- **Enhanced UX**: Improved tooltips and user feedback
+### v1.5.0 - Clickable Alert History
+- **🎯 Clickable History Entries**: Click any item in Alert History to whisper the player
+- **💬 Smart Whisper System**: Uses same whisper logic as GIS greed/request buttons
+- **⚙️ Respects Settings**: Automatically uses WHISPER or GUILD channel based on GIS settings
+- **📝 Clear Message Format**: "Is this [item] still available. I could use it, if no one needs."
+
+### v1.4.0 - Enhanced Interface
+- **🔧 Admin Tools Panel**: Added smoke test functionality and debug controls
+- **📊 Performance Optimizations**: Limited history displays to 20 entries for better performance
+- **✨ Visual Improvements**: Better status indicators and consistent styling
+- **7-Panel Interface**: Complete coverage of all GuildItemScanner functionality
 
 ## 🤝 Support & Community
 
@@ -153,6 +173,8 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 ---
 
-**Perfect for**: Players who want an intuitive, visual way to configure GuildItemScanner without memorizing chat commands.
+**Perfect for**: Players who want an intuitive, visual way to configure GuildItemScanner and interact with guild members through alert and social history.
+
+**Key Features**: 7-Panel Interface • Clickable History • Social Interaction • Message Mode Selection • Visual Design • Performance Optimized
 
 **Compatible with**: WoW Classic Era • All GuildItemScanner versions • Lightweight & Fast
