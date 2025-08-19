@@ -268,7 +268,7 @@ function SocialHistoryPanel:CreateSocialHistoryEntry(entry, yOffset)
     if self:IsMessageManuallySent(entry) then
         statusText = "[Sent]"
         statusColor = "|cff00ff00"  -- Green for manually sent
-    elseif entry.sentAutomatic then
+    elseif self:IsAutoSentMessage(entry) then
         statusText = "[Auto]"
         statusColor = "|cffffff00"  -- Yellow for auto-sent
     end
@@ -474,8 +474,8 @@ function SocialHistoryPanel:IsMessageSent(entry)
         return true
     end
     
-    -- Check if automatically sent (from entry data)
-    if entry.sentAutomatic then
+    -- Check if automatically sent
+    if self:IsAutoSentMessage(entry) then
         return true
     end
     
@@ -493,6 +493,31 @@ function SocialHistoryPanel:MarkMessageSent(entry)
     local sentMessages = addon:GetSetting("socialHistory", "sentMessages") or {}
     sentMessages[messageId] = time() -- Store when it was sent
     addon:SetSetting("socialHistory", "sentMessages", sentMessages)
+end
+
+function SocialHistoryPanel:IsAutoSentMessage(entry)
+    -- Based on GIS Social.lua analysis:
+    -- Auto-sent messages are added to social history by GIS SendAutoGZ/SendAutoRIP functions
+    -- If it's in social history but NOT manually sent by our UI, it was likely auto-sent by GIS
+    
+    -- Skip if this was manually sent by our UI
+    if self:IsMessageManuallySent(entry) then
+        return false
+    end
+    
+    -- Skip entries that were explicitly skipped (not sent)
+    if entry.details and entry.details.skipped then
+        return false
+    end
+    
+    -- Skip entries with "[Skipped" in the message (GIS tracks these as non-sent)
+    if entry.message and string.find(entry.message, "%[Skipped") then
+        return false
+    end
+    
+    -- If it's in GIS social history and we didn't manually send it, 
+    -- and it's not a skipped entry, then it was auto-sent by GIS
+    return true
 end
 
 function SocialHistoryPanel:ClearSentTracking()
