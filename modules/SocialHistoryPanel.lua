@@ -314,7 +314,7 @@ function SocialHistoryPanel:CreateSocialHistoryEntry(entry, yOffset)
         else
             local isWhisper = self.whisperRadio and self.whisperRadio:GetChecked()
             GameTooltip:SetText(isWhisper and "Click to whisper player" or "Click to send guild message")
-            local messageText = eventType == "GZ" and ("GZ " .. playerName .. "!") or ("RIP " .. playerName)
+            local messageText = self:GetTimeBasedMessage(entry)
             local prefix = isWhisper and "Will whisper: " or "Will send to guild: "
             GameTooltip:AddLine(prefix .. messageText, 1, 1, 1, true)
         end
@@ -348,18 +348,9 @@ function SocialHistoryPanel:SendSocialMessage(entry)
         return
     end
     
-    -- Create appropriate message based on event type
+    -- Create time-based message
     local playerName = entry.player
-    local eventType = entry.eventType
-    local message
-    
-    if eventType == "GZ" then
-        message = "GZ " .. playerName .. "!"
-    elseif eventType == "RIP" then
-        message = "RIP " .. playerName
-    else
-        message = "Hey " .. playerName
-    end
+    local message = self:GetTimeBasedMessage(entry)
     
     -- Determine channel based on radio selection
     local channel = "GUILD"
@@ -518,6 +509,42 @@ function SocialHistoryPanel:IsAutoSentMessage(entry)
     -- If it's in GIS social history and we didn't manually send it, 
     -- and it's not a skipped entry, then it was auto-sent by GIS
     return true
+end
+
+function SocialHistoryPanel:GetTimeSinceEvent(entry)
+    -- Calculate time elapsed since the event occurred
+    local currentTime = time()
+    local eventTime = entry.timestamp or 0
+    return currentTime - eventTime
+end
+
+function SocialHistoryPanel:GetTimeBasedMessage(entry)
+    -- Generate message based on how long ago the event occurred
+    local timeSince = self:GetTimeSinceEvent(entry)
+    local playerName = entry.player
+    local eventType = entry.eventType
+    
+    if eventType == "GZ" then
+        if timeSince < 60 then  -- Less than 1 minute
+            return "GZ"
+        elseif timeSince < 180 then  -- 1-3 minutes
+            return "GZ " .. playerName
+        else  -- More than 3 minutes
+            local achievement = entry.details and entry.details.achievement or "Unknown Achievement"
+            return "GZ " .. playerName .. " for this achievement: " .. achievement
+        end
+    elseif eventType == "RIP" then
+        if timeSince < 60 then  -- Less than 1 minute
+            return "F"
+        elseif timeSince < 180 then  -- 1-3 minutes
+            return "RIP " .. playerName
+        else  -- More than 3 minutes
+            return "R.I.P. " .. playerName .. " - Go agane"
+        end
+    else
+        -- Fallback for unknown event types
+        return "Hey " .. playerName
+    end
 end
 
 function SocialHistoryPanel:ClearSentTracking()
