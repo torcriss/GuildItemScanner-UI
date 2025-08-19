@@ -261,10 +261,38 @@ function SocialHistoryPanel:CreateSocialHistoryEntry(entry, yOffset)
         end
     end
     
-    if detailsText ~= "" then
+    -- Check if message has been sent and add status indicator
+    local statusText = ""
+    local statusColor = "|cff888888"
+    
+    if self:IsMessageManuallySent(entry) then
+        statusText = "[Sent]"
+        statusColor = "|cff00ff00"  -- Green for manually sent
+    elseif entry.sentAutomatic then
+        statusText = "[Auto]"
+        statusColor = "|cffffff00"  -- Yellow for auto-sent
+    end
+    
+    if detailsText ~= "" and statusText ~= "" then
+        local details = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+        details:SetPoint("TOPRIGHT", -5, -35)
+        details:SetText("|cff4488ff" .. detailsText .. "|r " .. statusColor .. statusText .. "|r")
+    elseif detailsText ~= "" then
         local details = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
         details:SetPoint("TOPRIGHT", -5, -35)
         details:SetText("|cff4488ff" .. detailsText .. "|r")
+    elseif statusText ~= "" then
+        local status = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+        status:SetPoint("TOPRIGHT", -5, -35)
+        status:SetText(statusColor .. statusText .. "|r")
+    end
+    
+    -- Dim the entry if already sent
+    if self:IsMessageSent(entry) then
+        bg:SetColorTexture(unpack({typeColor[1] * 0.5, typeColor[2] * 0.5, typeColor[3] * 0.5, typeColor[4]}))
+        eventLabel:SetAlpha(0.7)
+        player:SetAlpha(0.7)
+        timestamp:SetAlpha(0.7)
     end
     
     -- Click handler for guild message functionality
@@ -275,11 +303,22 @@ function SocialHistoryPanel:CreateSocialHistoryEntry(entry, yOffset)
     -- Tooltip for click functionality
     frame:SetScript("OnEnter", function()
         GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
-        local isWhisper = self.whisperRadio and self.whisperRadio:GetChecked()
-        GameTooltip:SetText(isWhisper and "Click to whisper player" or "Click to send guild message")
-        local messageText = eventType == "GZ" and ("GZ " .. playerName .. "!") or ("RIP " .. playerName)
-        local prefix = isWhisper and "Will whisper: " or "Will send to guild: "
-        GameTooltip:AddLine(prefix .. messageText, 1, 1, 1, true)
+        
+        if self:IsMessageSent(entry) then
+            GameTooltip:SetText("Message already sent")
+            if self:IsMessageManuallySent(entry) then
+                GameTooltip:AddLine("You clicked and sent this message", 0.8, 0.8, 0.8, true)
+            elseif entry.sentAutomatic then
+                GameTooltip:AddLine("This message was sent automatically", 0.8, 0.8, 0.8, true)
+            end
+        else
+            local isWhisper = self.whisperRadio and self.whisperRadio:GetChecked()
+            GameTooltip:SetText(isWhisper and "Click to whisper player" or "Click to send guild message")
+            local messageText = eventType == "GZ" and ("GZ " .. playerName .. "!") or ("RIP " .. playerName)
+            local prefix = isWhisper and "Will whisper: " or "Will send to guild: "
+            GameTooltip:AddLine(prefix .. messageText, 1, 1, 1, true)
+        end
+        
         GameTooltip:Show()
     end)
     
@@ -300,6 +339,12 @@ function SocialHistoryPanel:SendSocialMessage(entry)
     -- Check if GIS is available
     if not addon.GIS.IsAvailable() then
         print("|cffff0000[GIS-UI]|r GuildItemScanner not available")
+        return
+    end
+    
+    -- Check if already sent
+    if self:IsMessageSent(entry) then
+        print("|cffff8000[GIS-UI]|r Message already sent to " .. entry.player)
         return
     end
     
@@ -326,6 +371,12 @@ function SocialHistoryPanel:SendSocialMessage(entry)
     
     -- Send the message
     SendChatMessage(message, channel, nil, target)
+    
+    -- Mark as sent
+    self:MarkMessageSent(entry)
+    
+    -- Refresh display to show the sent indicator
+    self:RefreshSocialHistory()
     
     -- Provide feedback to user
     if channel == "WHISPER" then
@@ -391,6 +442,8 @@ function SocialHistoryPanel:ClearSocialHistory()
             if addon.GIS.IsAvailable() then
                 local success, msg = addon.GIS.ClearSocialHistory()
                 if success then
+                    -- Also clear our sent message tracking
+                    SocialHistoryPanel:ClearSentTracking()
                     print("|cff00ff00[GIS-UI]|r Social history cleared")
                     SocialHistoryPanel:RefreshSocialHistory()
                 else
@@ -406,4 +459,42 @@ function SocialHistoryPanel:ClearSocialHistory()
         preferredIndex = 3,
     }
     StaticPopup_Show("GIS_UI_CLEAR_SOCIAL_HISTORY")
+end
+
+-- Helper functions for tracking sent messages
+function SocialHistoryPanel:GetMessageId(entry)
+    -- Create unique ID from player + timestamp + eventType
+    local timestamp = entry.timestamp or entry.time or 0
+    return entry.player .. "_" .. timestamp .. "_" .. (entry.eventType or "unknown")
+end
+
+function SocialHistoryPanel:IsMessageSent(entry)
+    -- Check if manually sent by user click
+    if self:IsMessageManuallySent(entry) then
+        return true
+    end
+    
+    -- Check if automatically sent (from entry data)
+    if entry.sentAutomatic then
+        return true
+    end
+    
+    return false
+end
+
+function SocialHistoryPanel:IsMessageManuallySent(entry)
+    local messageId = self:GetMessageId(entry)
+    local sentMessages = addon:GetSetting("socialHistory", "sentMessages") or {}
+    return sentMessages[messageId] ~= nil
+end
+
+function SocialHistoryPanel:MarkMessageSent(entry)
+    local messageId = self:GetMessageId(entry)
+    local sentMessages = addon:GetSetting("socialHistory", "sentMessages") or {}
+    sentMessages[messageId] = time() -- Store when it was sent
+    addon:SetSetting("socialHistory", "sentMessages", sentMessages)
+end
+
+function SocialHistoryPanel:ClearSentTracking()
+    addon:SetSetting("socialHistory", "sentMessages", {})
 end
