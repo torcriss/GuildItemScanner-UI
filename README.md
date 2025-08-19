@@ -122,6 +122,13 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 
 ## 🆕 Recent Updates
 
+### v1.9.0 - Smart Time-Based Social Messages
+- **🕐 Intelligent Messaging**: Social History clicks now send different messages based on event timing
+- **⚡ Quick Responses**: Recent events (< 1 min) get instant reactions: "GZ" or "F"
+- **🎯 Targeted Messages**: Medium age events (1-3 min) get personalized: "GZ [player]" or "RIP [player]"
+- **📝 Detailed Responses**: Older events (> 3 min) get full context: achievement details or "Go agane"
+- **💬 Dynamic Tooltips**: Preview exact message that will be sent before clicking
+
 ### v1.8.1 - Auto-Sent Detection Fix
 - **🔧 Bug Fix**: Fixed [Auto] indicator not showing for GuildItemScanner auto-sent messages
 - **🎯 Improved Detection**: Analyzes GIS social history data to properly identify auto-sent vs manual messages
