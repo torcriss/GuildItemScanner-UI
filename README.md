@@ -9,7 +9,7 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - ⚡ **Lightweight & Fast** - Optimized codebase for excellent performance
 - 🔄 **Live Configuration** - Changes apply immediately to GuildItemScanner
 - 🛡️ **Safe Integration** - No risk of breaking GuildItemScanner functionality
-- 💬 **Interactive History** - Clickable alert and social history with messaging features
+- 💬 **Smart Social Interaction** - Time-based contextual messaging with clickable history panels
 
 ## 📋 Interface Overview
 
@@ -48,9 +48,13 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 ### 🎉 Social History  
 - **Auto-GZ/RIP Tracking**: View automatic congratulations and condolences sent
 - **Achievement Details**: See specific achievements that triggered congratulations
-- **Clickable Entries**: Click to send follow-up guild messages or whispers
+- **Smart Time-Based Messages**: Click entries for contextual responses based on event age
+  - Recent (< 1 min): Quick "GZ" or "F"
+  - Medium (1-3 min): Personal "GZ [player]" or "RIP [player]"
+  - Older (> 3 min): Detailed with achievement info or "Go agane"
 - **Sent Indicators**: [Sent] and [Auto] markers prevent duplicate messages
 - **Message Mode Selection**: Choose between guild messages and private whispers
+- **Dynamic Tooltips**: Preview exact message before sending
 - **Visual Distinction**: Color-coded entries (green for GZ, red for RIP)
 - **Latest 20 Events**: Performance-optimized display of recent social interactions
 - ⚠️ **Requires**: [Frontier addon](https://github.com/torcriss/frontier) for data
@@ -196,6 +200,6 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 **Perfect for**: Players who want an intuitive, visual way to configure GuildItemScanner and interact with guild members through alert and social history.
 
-**Key Features**: 7-Panel Interface • Clickable History • Social Interaction • Message Mode Selection • Visual Design • Performance Optimized
+**Key Features**: 7-Panel Interface • Smart Time-Based Messages • Clickable History • Social Interaction • Sent Indicators • Visual Design • Performance Optimized
 
 **Compatible with**: WoW Classic Era • All GuildItemScanner versions • Lightweight & Fast
