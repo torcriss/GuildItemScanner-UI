@@ -202,11 +202,26 @@ function HistoryPanel:CreateHistoryEntry(entry, yOffset)
     player:SetPoint("TOPRIGHT", -5, -5)
     player:SetText("|cff00ff00" .. playerName .. "|r")
     
-    -- Alert type
+    -- Alert type and sent indicator
     local alertType = entry.type or entry.alertType or "Alert"
+    local statusText = ""
+    
+    if self:IsAlertSent(entry) then
+        statusText = " |cff00ff00[Sent]|r"
+    end
+    
     local typeLabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     typeLabel:SetPoint("TOPRIGHT", -5, -35)
-    typeLabel:SetText("|cff4488ff" .. alertType .. "|r")
+    typeLabel:SetText("|cff4488ff" .. alertType .. "|r" .. statusText)
+    
+    -- Dim the entry if already sent
+    if self:IsAlertSent(entry) then
+        bg:SetColorTexture(0.05, 0.05, 0.05, 0.3)  -- Darker background
+        item:SetAlpha(0.7)
+        player:SetAlpha(0.7)
+        timestamp:SetAlpha(0.7)
+        typeLabel:SetAlpha(0.7)
+    end
     
     -- Click handler for whisper functionality
     frame:SetScript("OnClick", function()
@@ -216,8 +231,15 @@ function HistoryPanel:CreateHistoryEntry(entry, yOffset)
     -- Tooltip for click functionality
     frame:SetScript("OnEnter", function()
         GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
-        GameTooltip:SetText("Click to whisper player")
-        GameTooltip:AddLine("Will ask: Is this " .. (entry.item or "item") .. " still available. I could use it, if no one needs.", 1, 1, 1, true)
+        
+        if self:IsAlertSent(entry) then
+            GameTooltip:SetText("Message already sent")
+            GameTooltip:AddLine("You already inquired about this " .. (entry.item or "item"), 0.8, 0.8, 0.8, true)
+        else
+            GameTooltip:SetText("Click to whisper player")
+            GameTooltip:AddLine("Will ask: Is this " .. (entry.item or "item") .. " still available. I could use it, if no one needs.", 1, 1, 1, true)
+        end
+        
         GameTooltip:Show()
     end)
     
@@ -241,6 +263,12 @@ function HistoryPanel:SendWhisper(entry)
         return
     end
     
+    -- Check if already sent
+    if self:IsAlertSent(entry) then
+        print("|cffff8000[GIS-UI]|r Message already sent about " .. (entry.item or "this item"))
+        return
+    end
+    
     -- Get whisper mode setting from GIS (same pattern as GIS alerts)
     local whisperMode = addon.GIS.Get("whisperMode")
     local channel = whisperMode and "WHISPER" or "GUILD"
@@ -251,6 +279,12 @@ function HistoryPanel:SendWhisper(entry)
     
     -- Send the message
     SendChatMessage(msg, channel, nil, target)
+    
+    -- Mark as sent
+    self:MarkAlertSent(entry)
+    
+    -- Refresh display to show the sent indicator
+    self:RefreshHistory()
     
     -- Provide feedback to user
     if whisperMode then
@@ -331,6 +365,8 @@ function HistoryPanel:ClearHistory()
             if addon.GIS.IsAvailable() then
                 local success = addon.GIS.ClearHistory()
                 if success then
+                    -- Also clear our sent alert tracking
+                    self:ClearSentAlertTracking()
                     print("|cff00ff00[GIS-UI]|r Alert history cleared")
                     self:RefreshHistory()
                 else
@@ -347,4 +383,29 @@ function HistoryPanel:ClearHistory()
     }
     
     StaticPopup_Show("GIS_UI_CLEAR_HISTORY")
+end
+
+-- Helper functions for tracking sent alert messages
+function HistoryPanel:GetAlertId(entry)
+    -- Create unique ID from player + timestamp + item
+    local timestamp = entry.timestamp or 0
+    local item = entry.item or entry.itemName or "unknown"
+    return entry.player .. "_" .. timestamp .. "_" .. item
+end
+
+function HistoryPanel:IsAlertSent(entry)
+    local alertId = self:GetAlertId(entry)
+    local sentAlerts = addon:GetSetting("alertHistory", "sentMessages") or {}
+    return sentAlerts[alertId] ~= nil
+end
+
+function HistoryPanel:MarkAlertSent(entry)
+    local alertId = self:GetAlertId(entry)
+    local sentAlerts = addon:GetSetting("alertHistory", "sentMessages") or {}
+    sentAlerts[alertId] = time() -- Store when it was sent
+    addon:SetSetting("alertHistory", "sentMessages", sentAlerts)
+end
+
+function HistoryPanel:ClearSentAlertTracking()
+    addon:SetSetting("alertHistory", "sentMessages", {})
 end
