@@ -113,7 +113,35 @@ function AlertsPanel:CreatePanel(parent)
         function(checked) addon.GIS.Set("potionAlert", checked) end,
         "Show alerts for potions and consumables"
     )
+    yOffset = yOffset - 45
+    
+    -- Equipment alerts section
+    local equipTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    equipTitle:SetPoint("TOPLEFT", 10, yOffset)
+    equipTitle:SetText("Equipment Alerts")
+    equipTitle:SetTextColor(0.9, 0.9, 0.9)
+    yOffset = yOffset - 25
+    
+    -- Equipment quality filter dropdown
+    local qualityDropdown = self:CreateDropdown(content, "Minimum Quality", 10, yOffset,
+        {"common", "uncommon", "rare", "epic", "legendary"},
+        {"Common+", "Uncommon+", "Rare+", "Epic+", "Legendary"},
+        function() return addon.GIS.Get("equipmentQualityFilter") or "uncommon" end,
+        function(value) addon.GIS.Set("equipmentQualityFilter", value) end,
+        "Minimum quality level for equipment alerts"
+    )
+    yOffset = yOffset - 50
+    
+    -- Legendary items checkbox
+    self:CreateCheckbox(content, "Always Alert Legendary Items", 10, yOffset,
+        function() return addon.GIS.Get("alertLegendaryItems") end,
+        function(checked) addon.GIS.Set("alertLegendaryItems", checked) end,
+        "Alert for legendary items regardless of quality filter"
+    )
     yOffset = yOffset - 35
+    
+    -- Update content height to accommodate new section
+    content:SetSize(400, math.max(500, math.abs(yOffset) + 50))
     
     panel:Hide()
     return panel
