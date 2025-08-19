@@ -122,6 +122,11 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 
 ## 🆕 Recent Updates
 
+### v1.8.1 - Auto-Sent Detection Fix
+- **🔧 Bug Fix**: Fixed [Auto] indicator not showing for GuildItemScanner auto-sent messages
+- **🎯 Improved Detection**: Analyzes GIS social history data to properly identify auto-sent vs manual messages
+- **✅ Reliable Indicators**: [Auto] markers now correctly appear for auto-congratulations and condolences
+
 ### v1.8.0 - Sent Message Indicators
 - **✅ Duplicate Prevention**: Both Alert and Social History panels now show [Sent] indicators
 - **🎯 Visual Feedback**: Green [Sent] markers for manually clicked messages, yellow [Auto] for automatic
