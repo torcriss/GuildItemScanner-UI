@@ -188,43 +188,13 @@ function HistoryPanel:CreateHistoryEntry(entry, yOffset)
     timestamp:SetPoint("TOPLEFT", 5, -5)
     timestamp:SetText("|cff888888" .. timeStr .. "|r")
     
-    -- Item name (clickable if it's an item link)
-    local itemLink = entry.item or entry.itemName or "Unknown Item"
-    local item
-    
-    -- Check if it's a proper item link (starts with |c and contains |h)
-    if itemLink and string.find(itemLink, "|c") and string.find(itemLink, "|h") then
-        -- Create clickable hyperlink frame
-        item = CreateFrame("SimpleHTML", nil, frame)
-        item:SetPoint("TOPLEFT", 5, -20)
-        item:SetSize(250, 16)
-        item:SetHyperlinksEnabled(true)
-        item:SetFontObject("GameFontNormal")
-        
-        -- Set the item link as clickable hyperlink
-        item:SetText(itemLink)
-        
-        -- Handle hyperlink clicks (opens item details)
-        item:SetScript("OnHyperlinkClick", function(self, link, text, button)
-            if button == "LeftButton" then
-                -- Let WoW handle the default item link behavior (show tooltip/dressup)
-                ItemRefTooltip:SetOwner(self, "ANCHOR_PRESERVE")
-                ItemRefTooltip:SetHyperlink(link)
-                ItemRefTooltip:Show()
-            end
-        end)
-        
-        -- Prevent the hyperlink click from bubbling to the parent frame
-        item:SetScript("OnMouseDown", function() end)
-        item:SetScript("OnMouseUp", function() end)
-    else
-        -- Fallback to regular text if not a proper item link
-        item = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        item:SetPoint("TOPLEFT", 5, -20)
-        item:SetWidth(250)
-        item:SetJustifyH("LEFT")
-        item:SetText(itemLink)
-    end
+    -- Item name
+    local itemName = entry.itemName or entry.item or "Unknown Item"
+    local item = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    item:SetPoint("TOPLEFT", 5, -20)
+    item:SetWidth(250)
+    item:SetJustifyH("LEFT")
+    item:SetText(itemName)
     
     -- Player name
     local playerName = entry.player or entry.sender or "Unknown"
@@ -247,9 +217,7 @@ function HistoryPanel:CreateHistoryEntry(entry, yOffset)
     -- Dim the entry if already sent
     if self:IsAlertSent(entry) then
         bg:SetColorTexture(0.05, 0.05, 0.05, 0.3)  -- Darker background
-        if item then
-            item:SetAlpha(0.7)
-        end
+        item:SetAlpha(0.7)
         player:SetAlpha(0.7)
         timestamp:SetAlpha(0.7)
         typeLabel:SetAlpha(0.7)
