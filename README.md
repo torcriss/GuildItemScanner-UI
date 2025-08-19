@@ -208,6 +208,6 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 **Perfect for**: Players who want an intuitive, visual way to configure GuildItemScanner and interact with guild members through alert and social history.
 
-**Key Features**: 7-Panel Interface • Smart Time-Based Messages • Clickable History • Social Interaction • Sent Indicators • Visual Design • Performance Optimized
+**Key Features**: 7-Panel Interface • Equipment Quality Controls • Smart Time-Based Messages • Clickable History • Social Interaction • Sent Indicators • Performance Optimized
 
 **Compatible with**: WoW Classic Era • All GuildItemScanner versions • Lightweight & Fast
