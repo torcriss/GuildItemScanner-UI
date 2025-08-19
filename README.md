@@ -25,6 +25,7 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - **Material Alerts**: Crafting materials with rarity and quantity filters
 - **Bag Alerts**: Storage bags with size filtering
 - **Potion Alerts**: Potions and consumables notifications
+- **Equipment Alerts**: Quality filter and legendary item override controls
 
 ### ⚒️ Professions
 - **Manage Professions**: Add/remove professions for recipe and material detection
@@ -125,6 +126,13 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - Social features require Frontier to function
 
 ## 🆕 Recent Updates
+
+### v1.10.0 - Equipment Quality Filtering
+- **⚙️ Equipment Alerts Section**: New dedicated equipment alerts in Alert Settings panel
+- **🎛️ Quality Filter Control**: Dropdown to set minimum quality (Common+ through Legendary)
+- **✨ Legendary Override**: Checkbox to always alert legendary items regardless of filter
+- **🔗 Full Integration**: UI access to GuildItemScanner's /gis equipquality command functionality
+- **📏 Smart Layout**: Dynamic panel sizing to accommodate new controls
 
 ### v1.9.0 - Smart Time-Based Social Messages
 - **🕐 Intelligent Messaging**: Social History clicks now send different messages based on event timing
