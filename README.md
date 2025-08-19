@@ -39,6 +39,7 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 ### 📜 Alert History
 - **View History**: Browse latest 20 alerts with timestamps and details
 - **Clickable Entries**: Click any alert to whisper the player about item availability
+- **Sent Indicators**: Visual [Sent] markers prevent duplicate messages
 - **Whisper Mode Support**: Respects GIS whisper settings for messaging behavior
 - **Player Information**: See which players linked items and when
 - **Alert Types**: Identify what type of alert was triggered
@@ -48,6 +49,7 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - **Auto-GZ/RIP Tracking**: View automatic congratulations and condolences sent
 - **Achievement Details**: See specific achievements that triggered congratulations
 - **Clickable Entries**: Click to send follow-up guild messages or whispers
+- **Sent Indicators**: [Sent] and [Auto] markers prevent duplicate messages
 - **Message Mode Selection**: Choose between guild messages and private whispers
 - **Visual Distinction**: Color-coded entries (green for GZ, red for RIP)
 - **Latest 20 Events**: Performance-optimized display of recent social interactions
@@ -119,6 +121,13 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - Social features require Frontier to function
 
 ## 🆕 Recent Updates
+
+### v1.8.0 - Sent Message Indicators
+- **✅ Duplicate Prevention**: Both Alert and Social History panels now show [Sent] indicators
+- **🎯 Visual Feedback**: Green [Sent] markers for manually clicked messages, yellow [Auto] for automatic
+- **💾 Persistent Tracking**: Sent status saved across game sessions in SavedVariables
+- **🔄 Smart Refresh**: Display updates immediately when messages are sent
+- **⚠️ Click Protection**: Prevents accidental duplicate messaging with warning alerts
 
 ### v1.7.0 - Social History Message Mode Selection
 - **🎛️ Message Mode Selection**: Choose between guild messages and whispers in Social History

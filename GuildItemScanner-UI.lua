@@ -1,11 +1,11 @@
 -- GuildItemScanner-UI: Graphical configuration interface for GuildItemScanner
--- Version: 1.4.2
+-- Version: 1.8.0
 
 local addonName, addon = ...
 addon = addon or {}
 
 -- Version info
-addon.version = "1.4.2"
+addon.version = "1.8.0"
 
 -- Initialize SavedVariables with defaults
 local defaultSettings = {
