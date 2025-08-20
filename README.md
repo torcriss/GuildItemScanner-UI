@@ -36,6 +36,9 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - **Auto-GZ**: Automatically congratulate players on level ups with configurable chance (0-100%)
 - **Auto-RIP**: Send condolences when players die with configurable chance (0-100%)
 - **Chance Sliders**: Fine-tune probability of automatic responses with visual percentage display
+- **Custom GZ Messages**: Add, remove, and manage personalized congratulation messages
+- **Custom RIP Messages**: Add level-specific condolence messages (Low 1-39, Mid 40-59, High 60)
+- **Message Management**: Full UI for managing custom messages with clear all functionality
 - ⚠️ **Requires**: [Frontier addon](https://github.com/torcriss/frontier) for functionality
 
 ### 📜 Alert History
@@ -128,6 +131,15 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 
 ## 🆕 Recent Updates
 
+### v1.12.0 - Custom Message Management
+- **🎯 Custom GZ Messages**: Add, edit, and manage personalized congratulation messages through intuitive UI
+- **📝 Custom RIP Messages**: Create level-specific condolence messages with dropdown selector (Low 1-39, Mid 40-59, High 60)
+- **🗂️ Message Organization**: Visual list display showing all custom messages with index numbers for easy management
+- **🧹 Bulk Operations**: "Clear All" functionality to quickly remove all custom messages
+- **🔧 Individual Control**: Remove specific messages by index with simple input field
+- **🎛️ Level Categories**: Smart level categorization system matching GuildItemScanner's internal structure
+- **✨ Clean UI**: Improved spacing and layout for better user experience
+
 ### v1.11.0 - Social Features Chance Control
 - **🎛️ Auto-GZ Chance Slider**: Control probability (0-100%) of automatic congratulations
 - **🎛️ Auto-RIP Chance Slider**: Control probability (0-100%) of automatic condolences  
@@ -217,6 +229,6 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 **Perfect for**: Players who want an intuitive, visual way to configure GuildItemScanner and interact with guild members through alert and social history.
 
-**Key Features**: 7-Panel Interface • Social Chance Controls • Equipment Quality Filtering • Smart Time-Based Messages • Clickable History • Social Interaction • Sent Indicators • Performance Optimized
+**Key Features**: 7-Panel Interface • Custom Message Management • Social Chance Controls • Equipment Quality Filtering • Smart Time-Based Messages • Clickable History • Social Interaction • Sent Indicators • Performance Optimized
 
 **Compatible with**: WoW Classic Era • All GuildItemScanner versions • Lightweight & Fast

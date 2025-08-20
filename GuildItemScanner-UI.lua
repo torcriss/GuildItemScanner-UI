@@ -191,6 +191,139 @@ addon.GIS = {
             end
             return false, "Clear social history function not available"
         end)
+    end,
+    
+    -- Custom GZ message management
+    GetGZMessages = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.Config then
+                return _G.GuildItemScanner.Config.GetGzMessages()
+            end
+            return {}
+        end) or {}
+    end,
+    
+    AddGZMessage = function(message)
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.Config then
+                return _G.GuildItemScanner.Config.AddGzMessage(message)
+            end
+            -- Fallback: simulate the /gis gz add command
+            SlashCmdList["GUILDITEMSCANNER"]("gz add " .. message)
+            return true
+        end)
+    end,
+    
+    RemoveGZMessage = function(index)
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.Config then
+                return _G.GuildItemScanner.Config.RemoveGzMessage(index)
+            end
+            -- Fallback: simulate the /gis gz remove command
+            SlashCmdList["GUILDITEMSCANNER"]("gz remove " .. tostring(index))
+            return true
+        end)
+    end,
+    
+    ClearGZMessages = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.Config then
+                _G.GuildItemScanner.Config.ClearGzMessages()
+                return true
+            end
+            -- Fallback: simulate the /gis gz clear command
+            SlashCmdList["GUILDITEMSCANNER"]("gz clear")
+            return true
+        end)
+    end,
+    
+    -- Custom RIP message management
+    GetRIPMessages = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.Config then
+                local ripData = _G.GuildItemScanner.Config.GetRipMessages()
+                -- Convert to flat array with level info for UI display
+                local result = {}
+                local levels = {"low", "mid", "high"}
+                for _, level in ipairs(levels) do
+                    if ripData[level] then
+                        for i, message in ipairs(ripData[level]) do
+                            table.insert(result, {
+                                level = level,
+                                message = message,
+                                originalIndex = i,
+                                displayIndex = #result + 1
+                            })
+                        end
+                    end
+                end
+                return result
+            end
+            return {}
+        end) or {}
+    end,
+    
+    AddRIPMessage = function(level, message)
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.Config then
+                -- Convert numeric level to category if needed
+                local levelCategory
+                if tonumber(level) then
+                    local numLevel = tonumber(level)
+                    if numLevel >= 1 and numLevel <= 39 then
+                        levelCategory = "low"
+                    elseif numLevel >= 40 and numLevel <= 59 then
+                        levelCategory = "mid"
+                    else
+                        levelCategory = "high"
+                    end
+                else
+                    levelCategory = level -- assume it's already a category
+                end
+                
+                return _G.GuildItemScanner.Config.AddRipMessage(levelCategory, message)
+            end
+            -- Fallback: simulate the /gis rip add command
+            SlashCmdList["GUILDITEMSCANNER"]("rip add " .. tostring(level) .. " " .. message)
+            return true
+        end)
+    end,
+    
+    RemoveRIPMessage = function(index)
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.Config then
+                -- First, get all messages to find which level/index this display index corresponds to
+                local ripData = _G.GuildItemScanner.Config.GetRipMessages()
+                local currentIndex = 0
+                local levels = {"low", "mid", "high"}
+                
+                for _, level in ipairs(levels) do
+                    if ripData[level] then
+                        for i, message in ipairs(ripData[level]) do
+                            currentIndex = currentIndex + 1
+                            if currentIndex == index then
+                                return _G.GuildItemScanner.Config.RemoveRipMessage(level, i)
+                            end
+                        end
+                    end
+                end
+                return false, "Invalid index"
+            end
+            -- Fallback: simulate the /gis rip remove command (this won't work well without level)
+            SlashCmdList["GUILDITEMSCANNER"]("rip remove " .. tostring(index))
+            return true
+        end)
+    end,
+    
+    ClearRIPMessages = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.Config then
+                return _G.GuildItemScanner.Config.ClearRipMessages()
+            end
+            -- Fallback: simulate the /gis rip clear command
+            SlashCmdList["GUILDITEMSCANNER"]("rip clear")
+            return true
+        end)
     end
 }
 
