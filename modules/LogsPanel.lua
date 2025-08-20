@@ -49,31 +49,6 @@ function LogsPanel:CreatePanel(parent)
     
     yOffset = yOffset - 35
     
-    -- Filter section
-    local filterLabel = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    filterLabel:SetPoint("TOPLEFT", 10, yOffset)
-    filterLabel:SetText("Filters:")
-    filterLabel:SetTextColor(0.9, 0.9, 0.9)
-    
-    yOffset = yOffset - 25
-    
-    -- Filter buttons row 1
-    self.filterAll = self:CreateFilterButton(content, "All", 10, yOffset, true, 40)
-    self.filterWTB = self:CreateFilterButton(content, "WTB", 60, yOffset, false, 50)
-    self.filterFiltered = self:CreateFilterButton(content, "Filtered", 120, yOffset, false, 70)
-    self.filterAlerts = self:CreateFilterButton(content, "Alerts", 200, yOffset, false, 60)
-    
-    yOffset = yOffset - 30
-    
-    -- Filter buttons row 2 (alert types)
-    self.filterRecipe = self:CreateFilterButton(content, "Recipe", 10, yOffset, false, 60)
-    self.filterMaterial = self:CreateFilterButton(content, "Material", 80, yOffset, false, 70)
-    self.filterBag = self:CreateFilterButton(content, "Bag", 160, yOffset, false, 40)
-    self.filterPotion = self:CreateFilterButton(content, "Potion", 210, yOffset, false, 60)
-    self.filterEquipment = self:CreateFilterButton(content, "Equipment", 280, yOffset, false, 80)
-    
-    yOffset = yOffset - 40
-    
     -- Statistics display
     local statsLabel = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     statsLabel:SetPoint("TOPLEFT", 10, yOffset)
@@ -93,8 +68,6 @@ function LogsPanel:CreatePanel(parent)
     self.logsContainer = content
     self.logsStartY = yOffset
     
-    -- Track current filter
-    self.currentFilter = "all"
     
     -- Initial load
     self:RefreshLogs()
@@ -103,51 +76,6 @@ function LogsPanel:CreatePanel(parent)
     return panel
 end
 
-function LogsPanel:CreateFilterButton(parent, text, x, y, selected, width)
-    local button = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
-    button:SetSize(width or 50, 20)
-    button:SetPoint("TOPLEFT", x, y)
-    button:SetText(text)
-    
-    -- Color based on selection
-    if selected then
-        button:GetFontString():SetTextColor(1, 1, 0) -- Yellow for selected
-    else
-        button:GetFontString():SetTextColor(1, 1, 1) -- White for unselected
-    end
-    
-    button:SetScript("OnClick", function()
-        self:SetFilter(string.lower(text))
-    end)
-    
-    return button
-end
-
-function LogsPanel:SetFilter(filterType)
-    -- Update button colors
-    local buttons = {
-        ["all"] = self.filterAll,
-        ["wtb"] = self.filterWTB,
-        ["filtered"] = self.filterFiltered,
-        ["alerts"] = self.filterAlerts,
-        ["recipe"] = self.filterRecipe,
-        ["material"] = self.filterMaterial,
-        ["bag"] = self.filterBag,
-        ["potion"] = self.filterPotion,
-        ["equipment"] = self.filterEquipment
-    }
-    
-    for filter, button in pairs(buttons) do
-        if filter == filterType then
-            button:GetFontString():SetTextColor(1, 1, 0) -- Yellow for selected
-        else
-            button:GetFontString():SetTextColor(1, 1, 1) -- White for unselected
-        end
-    end
-    
-    self.currentFilter = filterType
-    self:RefreshLogs()
-end
 
 function LogsPanel:RefreshLogs()
     -- Clear existing log display
@@ -194,23 +122,10 @@ function LogsPanel:RefreshLogs()
         return
     end
     
-    -- Filter messages based on current filter
-    local filteredMessages = self:FilterMessages(messageLog)
-    
-    if #filteredMessages == 0 then
-        local noMatchFrame = self:CreateLogEntry(
-            "|cff808080No messages match the current filter|r",
-            nil
-        )
-        noMatchFrame:SetPoint("TOPLEFT", self.logsContainer, "TOPLEFT", 10, self.logsStartY)
-        table.insert(self.logFrames, noMatchFrame)
-        return
-    end
-    
-    -- Display filtered entries
+    -- Display entries
     local yOffset = self.logsStartY
     
-    for i, entry in ipairs(filteredMessages) do
+    for i, entry in ipairs(messageLog) do
         if i <= 50 then -- Limit display to prevent UI lag
             local frame = self:CreateMessageEntry(entry, i)
             frame:SetPoint("TOPLEFT", self.logsContainer, "TOPLEFT", 10, yOffset)
@@ -224,32 +139,6 @@ function LogsPanel:RefreshLogs()
     self.content:SetHeight(totalHeight)
 end
 
-function LogsPanel:FilterMessages(messageLog)
-    local filtered = {}
-    
-    for _, entry in ipairs(messageLog) do
-        local include = false
-        
-        if self.currentFilter == "all" then
-            include = true
-        elseif self.currentFilter == "wtb" then
-            include = entry.wasWTB
-        elseif self.currentFilter == "filtered" then
-            include = entry.wasFiltered
-        elseif self.currentFilter == "alerts" then
-            include = entry.alertType ~= nil
-        else
-            -- Specific alert type
-            include = entry.alertType == self.currentFilter
-        end
-        
-        if include then
-            table.insert(filtered, entry)
-        end
-    end
-    
-    return filtered
-end
 
 function LogsPanel:CreateMessageEntry(entry, index)
     local frame = CreateFrame("Frame", nil, self.logsContainer)
