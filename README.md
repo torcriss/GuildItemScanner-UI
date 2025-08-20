@@ -4,7 +4,7 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 
 ## 🎯 Features
 
-- 🎨 **Complete Interface** - 8-panel design covering all GuildItemScanner functionality
+- 🎨 **Complete Interface** - 9-panel design covering all GuildItemScanner functionality
 - 🗺️ **Minimap Integration** - Quick access via minimap button, drag to reposition  
 - ⚡ **Lightweight & Fast** - Optimized codebase for excellent performance
 - 🔄 **Live Configuration** - Changes apply immediately to GuildItemScanner
@@ -72,6 +72,16 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - **Price Analysis**: Parse and display extracted prices and quantities from messages
 - **Clear History**: Remove all WTB history entries with one click
 - **Tooltips**: Hover over entries to see complete original messages
+
+### 📊 Guild Logs
+- **Message History**: View up to 200 guild messages processed by GuildItemScanner
+- **Advanced Filtering**: Filter by All, WTB messages, Filtered messages, or specific alert types
+- **Alert Type Filters**: Show only Recipe, Material, Bag, Potion, or Equipment alerts
+- **Detailed Information**: See sender, timestamp, item count, WTB status, and alert types
+- **Color-Coded Display**: Visual indicators for different alert types and message status
+- **Statistics**: View total entries, oldest/newest messages, and storage capacity
+- **Hover Details**: Full message content and processing details in tooltips
+- **Performance Optimized**: Displays latest 50 entries to maintain smooth UI performance
 
 ### 🔧 Admin Tools
 - **Smoke Test**: Run GuildItemScanner diagnostic tests

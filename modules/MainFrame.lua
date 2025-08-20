@@ -14,6 +14,7 @@ local PANELS = {
     {name = "History", title = "Alert History", module = "HistoryPanel"},
     {name = "SocialHistory", title = "Social History", module = "SocialHistoryPanel"},
     {name = "WTBHistory", title = "WTB History", module = "WTBHistoryPanel"},
+    {name = "Logs", title = "Guild Logs", module = "LogsPanel"},
     {name = "Admin", title = "Admin Tools", module = "AdminPanel"}
 }
 

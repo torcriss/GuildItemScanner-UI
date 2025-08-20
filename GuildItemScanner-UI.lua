@@ -346,6 +346,35 @@ addon.GIS = {
             SlashCmdList["GUILDITEMSCANNER"]("wtbclear")
             return true
         end)
+    end,
+    
+    -- MessageLog functions
+    GetMessageLog = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.MessageLog then
+                return _G.GuildItemScanner.MessageLog.GetMessageLog()
+            end
+            return {}
+        end) or {}
+    end,
+    
+    GetMessageLogStats = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.MessageLog then
+                return _G.GuildItemScanner.MessageLog.GetStats()
+            end
+            return {
+                totalEntries = 0,
+                maxEntries = 200,
+                oldestEntry = "None",
+                newestEntry = "None"
+            }
+        end) or {
+            totalEntries = 0,
+            maxEntries = 200,
+            oldestEntry = "None", 
+            newestEntry = "None"
+        }
     end
 }
 
