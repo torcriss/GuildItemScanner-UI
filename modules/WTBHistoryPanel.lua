@@ -160,7 +160,7 @@ function WTBHistoryPanel:CreateWTBEntry(entry, index)
     -- Item name/link
     local itemText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     itemText:SetPoint("TOPLEFT", 160, -15)
-    itemText:SetWidth(130)
+    itemText:SetWidth(200)
     itemText:SetJustifyH("LEFT")
     
     if entry.itemLink and string.find(entry.itemLink, "|c%x+|H.-|h%[.-%]|h|r") then
@@ -174,7 +174,7 @@ function WTBHistoryPanel:CreateWTBEntry(entry, index)
     -- Quantity and Price on second line
     local detailsText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     detailsText:SetPoint("TOPLEFT", 160, -28)
-    detailsText:SetWidth(170)
+    detailsText:SetWidth(200)
     detailsText:SetJustifyH("LEFT")
     
     local qtyText = entry.quantity and ("Qty: " .. entry.quantity) or "Qty: ?"
