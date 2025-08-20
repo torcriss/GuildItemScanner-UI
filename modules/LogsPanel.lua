@@ -23,7 +23,7 @@ function LogsPanel:CreatePanel(parent)
     panel:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -25, 0)
     
     local content = CreateFrame("Frame", nil, panel)
-    content:SetSize(400, 800)
+    content:SetSize(500, 800)
     panel:SetScrollChild(content)
     
     self.panel = panel
@@ -82,7 +82,7 @@ function LogsPanel:CreatePanel(parent)
     
     local statsText = content:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     statsText:SetPoint("TOPLEFT", 10, yOffset - 15)
-    statsText:SetWidth(380)
+    statsText:SetWidth(480)
     statsText:SetJustifyH("LEFT")
     statsText:SetText("Loading statistics...")
     self.statsText = statsText
@@ -215,7 +215,7 @@ function LogsPanel:RefreshLogs()
             local frame = self:CreateMessageEntry(entry, i)
             frame:SetPoint("TOPLEFT", self.logsContainer, "TOPLEFT", 10, yOffset)
             table.insert(self.logFrames, frame)
-            yOffset = yOffset - 35 -- Space between entries
+            yOffset = yOffset - 45 -- Space between entries
         end
     end
     
@@ -253,7 +253,7 @@ end
 
 function LogsPanel:CreateMessageEntry(entry, index)
     local frame = CreateFrame("Frame", nil, self.logsContainer)
-    frame:SetSize(380, 30)
+    frame:SetSize(480, 40)
     
     -- Background for clickable area
     local bg = frame:CreateTexture(nil, "BACKGROUND")
@@ -267,27 +267,27 @@ function LogsPanel:CreateMessageEntry(entry, index)
     
     -- Sender name
     local senderText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    senderText:SetPoint("TOPLEFT", 5, -15)
-    senderText:SetWidth(80)
+    senderText:SetPoint("TOPLEFT", 5, -18)
+    senderText:SetWidth(100)
     senderText:SetJustifyH("LEFT")
     senderText:SetText("|cff00ff00" .. (entry.sender or "Unknown") .. "|r")
     
     -- Message preview
     local messageText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    messageText:SetPoint("TOPLEFT", 90, -15)
-    messageText:SetWidth(200)
+    messageText:SetPoint("TOPLEFT", 110, -18)
+    messageText:SetWidth(280)
     messageText:SetJustifyH("LEFT")
     local messagePreview = entry.message or ""
-    if string.len(messagePreview) > 45 then
-        messagePreview = string.sub(messagePreview, 1, 45) .. "..."
+    if string.len(messagePreview) > 60 then
+        messagePreview = string.sub(messagePreview, 1, 60) .. "..."
     end
     messageText:SetText("|cffffffff" .. messagePreview .. "|r")
     
     -- Status indicators
     local statusText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    statusText:SetPoint("TOPRIGHT", -5, -2)
-    statusText:SetWidth(80)
-    statusText:SetJustifyH("RIGHT")
+    statusText:SetPoint("TOPLEFT", 110, -30)
+    statusText:SetWidth(280)
+    statusText:SetJustifyH("LEFT")
     
     local statusParts = {}
     if entry.itemCount and entry.itemCount > 0 then
@@ -345,11 +345,11 @@ end
 
 function LogsPanel:CreateLogEntry(text, data)
     local frame = CreateFrame("Frame", nil, self.logsContainer)
-    frame:SetSize(380, 25)
+    frame:SetSize(480, 25)
     
     local textDisplay = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     textDisplay:SetPoint("TOPLEFT", 5, -5)
-    textDisplay:SetWidth(370)
+    textDisplay:SetWidth(470)
     textDisplay:SetJustifyH("LEFT")
     textDisplay:SetText(text)
     
