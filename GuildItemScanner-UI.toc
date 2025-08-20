@@ -2,7 +2,7 @@
 ## Title: |cff00ff00GuildItemScanner|r UI
 ## Notes: Graphical configuration interface for GuildItemScanner
 ## Author: Enhanced Version
-## Version: 1.12.0
+## Version: 1.13.0
 ## Dependencies: GuildItemScanner
 ## SavedVariables: GuildItemScannerUIDB
 ## DefaultState: enabled
@@ -16,4 +16,5 @@ modules/ProfessionsPanel.lua
 modules/SocialPanel.lua
 modules/HistoryPanel.lua
 modules/SocialHistoryPanel.lua
+modules/WTBHistoryPanel.lua
 modules/AdminPanel.lua

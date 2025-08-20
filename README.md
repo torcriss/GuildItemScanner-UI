@@ -4,7 +4,7 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 
 ## 🎯 Features
 
-- 🎨 **Complete Interface** - 7-panel design covering all GuildItemScanner functionality
+- 🎨 **Complete Interface** - 8-panel design covering all GuildItemScanner functionality
 - 🗺️ **Minimap Integration** - Quick access via minimap button, drag to reposition  
 - ⚡ **Lightweight & Fast** - Optimized codebase for excellent performance
 - 🔄 **Live Configuration** - Changes apply immediately to GuildItemScanner
@@ -63,6 +63,15 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - **Visual Distinction**: Color-coded entries (green for GZ, red for RIP)
 - **Latest 20 Events**: Performance-optimized display of recent social interactions
 - ⚠️ **Requires**: [Frontier addon](https://github.com/torcriss/frontier) for data
+
+### 💰 WTB History
+- **Request Tracking**: View latest 20 Want-To-Buy requests with detailed information
+- **Smart Display**: Shows player, item, quantity, price, and original message
+- **Clickable Entries**: Click any WTB request to whisper the player with clickable item links
+- **Sent Tracking**: Visual [Sent] indicators prevent duplicate messages
+- **Price Analysis**: Parse and display extracted prices and quantities from messages
+- **Clear History**: Remove all WTB history entries with one click
+- **Tooltips**: Hover over entries to see complete original messages
 
 ### 🔧 Admin Tools
 - **Smoke Test**: Run GuildItemScanner diagnostic tests
@@ -130,6 +139,17 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - Social features require Frontier to function
 
 ## 🆕 Recent Updates
+
+### v1.13.0 - WTB History Tracking
+- **💰 WTB History Panel**: New dedicated panel for tracking Want-To-Buy requests from guild members
+- **📊 Smart Parsing**: Automatically extracts player names, items, quantities, and prices from WTB messages
+- **🎯 Clickable Interaction**: Click any WTB entry to whisper the player about item availability
+- **🔗 Item Link Whispers**: Whisper messages include clickable item links for easy interaction
+- **📋 Detailed Display**: Shows time, player, item links, parsed quantities and prices
+- **💬 Tooltip Messages**: Hover to see complete original WTB messages for context
+- **✅ Sent Tracking**: [Sent] indicators prevent duplicate whispers to the same player
+- **🧹 History Management**: Clear all WTB history with confirmation and refresh functionality
+- **🔗 GIS Integration**: Direct integration with `/gis wtblist` and `/gis wtbclear` commands
 
 ### v1.12.0 - Custom Message Management
 - **🎯 Custom GZ Messages**: Add, edit, and manage personalized congratulation messages through intuitive UI
@@ -229,6 +249,6 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 **Perfect for**: Players who want an intuitive, visual way to configure GuildItemScanner and interact with guild members through alert and social history.
 
-**Key Features**: 7-Panel Interface • Custom Message Management • Social Chance Controls • Equipment Quality Filtering • Smart Time-Based Messages • Clickable History • Social Interaction • Sent Indicators • Performance Optimized
+**Key Features**: 8-Panel Interface • WTB History Tracking • Custom Message Management • Social Chance Controls • Equipment Quality Filtering • Smart Time-Based Messages • Clickable History • Social Interaction • Sent Indicators • Performance Optimized
 
 **Compatible with**: WoW Classic Era • All GuildItemScanner versions • Lightweight & Fast

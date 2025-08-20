@@ -324,6 +324,28 @@ addon.GIS = {
             SlashCmdList["GUILDITEMSCANNER"]("rip clear")
             return true
         end)
+    end,
+    
+    -- WTB History management
+    GetWTBHistory = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.WTB then
+                return _G.GuildItemScanner.WTB.GetWTBHistory()
+            end
+            return {}
+        end) or {}
+    end,
+    
+    ClearWTBHistory = function()
+        return SafeGISCall(function()
+            if _G.GuildItemScanner and _G.GuildItemScanner.WTB then
+                _G.GuildItemScanner.WTB.ClearWTBHistory()
+                return true
+            end
+            -- Fallback: simulate the /gis wtbclear command
+            SlashCmdList["GUILDITEMSCANNER"]("wtbclear")
+            return true
+        end)
     end
 }
 
