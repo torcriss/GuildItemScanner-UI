@@ -58,19 +58,19 @@ function LogsPanel:CreatePanel(parent)
     yOffset = yOffset - 25
     
     -- Filter buttons row 1
-    self.filterAll = self:CreateFilterButton(content, "All", 10, yOffset, true)
-    self.filterWTB = self:CreateFilterButton(content, "WTB", 60, yOffset, false)
-    self.filterFiltered = self:CreateFilterButton(content, "Filtered", 110, yOffset, false)
-    self.filterAlerts = self:CreateFilterButton(content, "Alerts", 170, yOffset, false)
+    self.filterAll = self:CreateFilterButton(content, "All", 10, yOffset, true, 40)
+    self.filterWTB = self:CreateFilterButton(content, "WTB", 60, yOffset, false, 50)
+    self.filterFiltered = self:CreateFilterButton(content, "Filtered", 120, yOffset, false, 70)
+    self.filterAlerts = self:CreateFilterButton(content, "Alerts", 200, yOffset, false, 60)
     
     yOffset = yOffset - 30
     
     -- Filter buttons row 2 (alert types)
-    self.filterRecipe = self:CreateFilterButton(content, "Recipe", 10, yOffset, false)
-    self.filterMaterial = self:CreateFilterButton(content, "Material", 70, yOffset, false)
-    self.filterBag = self:CreateFilterButton(content, "Bag", 140, yOffset, false)
-    self.filterPotion = self:CreateFilterButton(content, "Potion", 180, yOffset, false)
-    self.filterEquipment = self:CreateFilterButton(content, "Equipment", 230, yOffset, false)
+    self.filterRecipe = self:CreateFilterButton(content, "Recipe", 10, yOffset, false, 60)
+    self.filterMaterial = self:CreateFilterButton(content, "Material", 80, yOffset, false, 70)
+    self.filterBag = self:CreateFilterButton(content, "Bag", 160, yOffset, false, 40)
+    self.filterPotion = self:CreateFilterButton(content, "Potion", 210, yOffset, false, 60)
+    self.filterEquipment = self:CreateFilterButton(content, "Equipment", 280, yOffset, false, 80)
     
     yOffset = yOffset - 40
     
@@ -103,9 +103,9 @@ function LogsPanel:CreatePanel(parent)
     return panel
 end
 
-function LogsPanel:CreateFilterButton(parent, text, x, y, selected)
+function LogsPanel:CreateFilterButton(parent, text, x, y, selected, width)
     local button = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
-    button:SetSize(50, 20)
+    button:SetSize(width or 50, 20)
     button:SetPoint("TOPLEFT", x, y)
     button:SetText(text)
     
