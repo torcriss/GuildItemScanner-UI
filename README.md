@@ -75,13 +75,13 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 
 ### 📊 Guild Logs
 - **Message History**: View up to 200 guild messages processed by GuildItemScanner
-- **Advanced Filtering**: Filter by All, WTB messages, Filtered messages, or specific alert types
-- **Alert Type Filters**: Show only Recipe, Material, Bag, Potion, or Equipment alerts
+- **Chronological Display**: Simple, clean timeline of all guild messages without filtering complexity
 - **Detailed Information**: See sender, timestamp, item count, WTB status, and alert types
 - **Color-Coded Display**: Visual indicators for different alert types and message status
 - **Statistics**: View total entries, oldest/newest messages, and storage capacity
 - **Hover Details**: Full message content and processing details in tooltips
 - **Performance Optimized**: Displays latest 50 entries to maintain smooth UI performance
+- **Simplified Interface**: Clean design focused on message content without filter clutter
 
 ### 🔧 Admin Tools
 - **Smoke Test**: Run GuildItemScanner diagnostic tests
@@ -149,6 +149,20 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - Social features require Frontier to function
 
 ## 🆕 Recent Updates
+
+### v1.15.0 - Simplified Guild Logs
+- **🧹 Interface Simplification**: Removed all filter buttons from Guild Logs panel for cleaner design
+- **📊 Streamlined Display**: Shows all guild messages chronologically without filtering complexity
+- **⚡ Better Performance**: No filtering overhead when loading messages
+- **🎯 Improved Focus**: More space for actual message content and statistics
+- **📉 Reduced Complexity**: Removed 100+ lines of filter-related code
+
+### v1.14.0 - Guild Logs Panel
+- **📊 New Guild Logs Panel**: Complete guild message history tracking and analysis
+- **🔍 Advanced Filtering**: Filter by All, WTB, Filtered, or specific alert types (removed in v1.15.0)
+- **🎨 Color-Coded Display**: Visual indicators for different alert types and message status
+- **📈 Statistics**: Shows total entries, oldest/newest messages, and storage capacity
+- **⚡ Performance Optimized**: Displays latest 50 entries for smooth UI performance
 
 ### v1.13.0 - WTB History Tracking
 - **💰 WTB History Panel**: New dedicated panel for tracking Want-To-Buy requests from guild members
