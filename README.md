@@ -80,7 +80,7 @@ A comprehensive graphical user interface addon for configuring [GuildItemScanner
 - **Color-Coded Display**: Visual indicators for different alert types and message status
 - **Statistics**: View total entries, oldest/newest messages, and storage capacity
 - **Hover Details**: Full message content and processing details in tooltips
-- **Performance Optimized**: Displays latest 50 entries to maintain smooth UI performance
+- **Complete History Access**: Displays all 200 stored messages with smooth scrolling
 - **Simplified Interface**: Clean design focused on message content without filter clutter
 
 ### 🔧 Admin Tools

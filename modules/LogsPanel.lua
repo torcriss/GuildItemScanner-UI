@@ -23,7 +23,7 @@ function LogsPanel:CreatePanel(parent)
     panel:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -25, 0)
     
     local content = CreateFrame("Frame", nil, panel)
-    content:SetSize(500, 800)
+    content:SetSize(500, 1200)
     panel:SetScrollChild(content)
     
     self.panel = panel
@@ -126,7 +126,7 @@ function LogsPanel:RefreshLogs()
     local yOffset = self.logsStartY
     
     for i, entry in ipairs(messageLog) do
-        if i <= 50 then -- Limit display to prevent UI lag
+        if i <= 200 then -- Display all available logs (up to max storage)
             local frame = self:CreateMessageEntry(entry, i)
             frame:SetPoint("TOPLEFT", self.logsContainer, "TOPLEFT", 10, yOffset)
             table.insert(self.logFrames, frame)
