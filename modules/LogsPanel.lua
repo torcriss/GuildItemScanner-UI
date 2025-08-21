@@ -130,7 +130,7 @@ function LogsPanel:RefreshLogs()
             local frame = self:CreateMessageEntry(entry, i)
             frame:SetPoint("TOPLEFT", self.logsContainer, "TOPLEFT", 10, yOffset)
             table.insert(self.logFrames, frame)
-            yOffset = yOffset - 45 -- Space between entries
+            yOffset = yOffset - 60 -- Space between entries
         end
     end
     
@@ -142,7 +142,7 @@ end
 
 function LogsPanel:CreateMessageEntry(entry, index)
     local frame = CreateFrame("Frame", nil, self.logsContainer)
-    frame:SetSize(480, 40)
+    frame:SetSize(480, 55)
     
     -- Background for clickable area
     local bg = frame:CreateTexture(nil, "BACKGROUND")
@@ -166,7 +166,7 @@ function LogsPanel:CreateMessageEntry(entry, index)
     messageText:SetPoint("TOPLEFT", 110, -18)
     messageText:SetWidth(280)
     messageText:SetJustifyH("LEFT")
-    local messagePreview = entry.message or ""
+    local messagePreview = self:CleanMessageForDisplay(entry.message or "")
     if string.len(messagePreview) > 60 then
         messagePreview = string.sub(messagePreview, 1, 60) .. "..."
     end
@@ -174,7 +174,7 @@ function LogsPanel:CreateMessageEntry(entry, index)
     
     -- Status indicators
     local statusText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    statusText:SetPoint("TOPLEFT", 110, -30)
+    statusText:SetPoint("TOPLEFT", 110, -40)
     statusText:SetWidth(280)
     statusText:SetJustifyH("LEFT")
     
@@ -243,6 +243,22 @@ function LogsPanel:CreateLogEntry(text, data)
     textDisplay:SetText(text)
     
     return frame
+end
+
+function LogsPanel:CleanMessageForDisplay(message)
+    if not message or message == "" then
+        return ""
+    end
+    
+    -- Convert item links to readable names
+    local cleanMessage = message
+    -- Convert |H....|h[Item Name]|h to just [Item Name]
+    cleanMessage = string.gsub(cleanMessage, "|H([^|]*)|h(%[([^%]]*)%])|h", "%2")
+    -- Remove color codes
+    cleanMessage = string.gsub(cleanMessage, "|c[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]", "")
+    cleanMessage = string.gsub(cleanMessage, "|r", "")
+    
+    return cleanMessage
 end
 
 function LogsPanel:GetAlertTypeColor(alertType)
