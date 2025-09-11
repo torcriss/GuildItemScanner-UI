@@ -7,7 +7,7 @@
 ## SavedVariables: GuildItemScannerUIDB
 ## DefaultState: enabled
 
-GuildItemScanner-UI.lua
+GuildItemScannerUI.lua
 modules/MinimapButton.lua
 modules/MainFrame.lua
 modules/GeneralPanel.lua
